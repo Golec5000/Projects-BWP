@@ -23,7 +23,7 @@ public class App extends Application {
 
         try {
 
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/airqualityapp/main-page.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/airqualityapp/main-page-v2.fxml")));
 
         } catch (IOException e) {
 

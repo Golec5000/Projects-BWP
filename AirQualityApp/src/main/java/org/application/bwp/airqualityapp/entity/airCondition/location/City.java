@@ -1,4 +1,4 @@
-package org.application.bwp.airqualityapp.entity.location;
+package org.application.bwp.airqualityapp.entity.airCondition.location;
 
 
 public class City {

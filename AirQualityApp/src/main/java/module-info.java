@@ -5,21 +5,16 @@ module org.application.bwp.airqualityapp {
     requires java.net.http;
     requires com.google.gson;
 
-    opens org.application.bwp.airqualityapp.entity.location to com.google.gson, javafx.base;
-    opens org.application.bwp.airqualityapp.entity.params to com.google.gson, javafx.base;
-
     exports org.application.bwp.airqualityapp.application to javafx.graphics, javafx.fxml;
+    exports org.application.bwp.airqualityapp.controller.gui to javafx.fxml, javafx.graphics;
+    exports org.application.bwp.airqualityapp.entity.airCondition.location;
+    exports org.application.bwp.airqualityapp.entity.airCondition.params;
+
     opens org.application.bwp.airqualityapp.application to javafx.graphics, javafx.fxml;
-
-    exports org.application.bwp.airqualityapp.controller.gui to javafx.fxml, javafx.graphics, java.base;
-    opens org.application.bwp.airqualityapp.controller.gui to javafx.fxml, javafx.graphics, javafx.base;
-
-    exports org.application.bwp.airqualityapp.entity.location to java.base;
-    exports org.application.bwp.airqualityapp.entity.params to java.base;
-
-    opens org.application.bwp.airqualityapp.controller.api to com.google.gson, java.base;
-    exports org.application.bwp.airqualityapp.controller.api to com.google.gson, java.base;
-
+    opens org.application.bwp.airqualityapp.controller.gui to javafx.fxml, javafx.graphics;
+    opens org.application.bwp.airqualityapp.controller.api to com.google.gson;
     opens org.application.bwp.airqualityapp to javafx.graphics, javafx.fxml;
-
+    opens org.application.bwp.airqualityapp.entity.weather to com.google.gson;
+    opens org.application.bwp.airqualityapp.entity.airCondition.location to com.google.gson;
+    opens org.application.bwp.airqualityapp.entity.airCondition.params to com.google.gson;
 }

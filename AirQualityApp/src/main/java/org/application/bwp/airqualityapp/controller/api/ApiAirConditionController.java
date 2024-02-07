@@ -2,8 +2,8 @@ package org.application.bwp.airqualityapp.controller.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.application.bwp.airqualityapp.entity.location.Station;
-import org.application.bwp.airqualityapp.entity.params.SensorData;
+import org.application.bwp.airqualityapp.entity.airCondition.location.Station;
+import org.application.bwp.airqualityapp.entity.airCondition.params.SensorData;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -15,16 +15,16 @@ import java.net.http.HttpResponse;
 import java.util.Collections;
 import java.util.List;
 
-public class ApiController {
+public class ApiAirConditionController {
 
-    private static ApiController apiService;
+    private static ApiAirConditionController apiAirService;
 
-    private ApiController() {
+    private ApiAirConditionController() {
     }
 
-    public static ApiController getInstance() {
-        if (apiService == null) apiService = new ApiController();
-        return apiService;
+    public static ApiAirConditionController getInstance() {
+        if (apiAirService == null) apiAirService = new ApiAirConditionController();
+        return apiAirService;
     }
 
     public List<Station> getAllData() {

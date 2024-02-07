@@ -1,4 +1,4 @@
-package org.application.bwp.airqualityapp.entity.params;
+package org.application.bwp.airqualityapp.entity.airCondition.params;
 
 public class Param {
     private String paramName;
