@@ -20,12 +20,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.application.bwp.airqualityapp.controller.api.ApiAirConditionController;
 import org.application.bwp.airqualityapp.entity.airCondition.molecules.AirMolecules;
+import org.application.bwp.airqualityapp.entity.airCondition.molecules.MoleculeValue;
 import org.application.bwp.airqualityapp.entity.airCondition.params.SensorData;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AirStatusPageController implements Initializable {
 
@@ -101,26 +101,41 @@ public class AirStatusPageController implements Initializable {
 
     public void getData() {
         stationTable.setOnMouseClicked(event -> {
-
             SensorData sensorData = stationTable.getSelectionModel().getSelectedItem();
+            if(sensorData == null) {
+                showAlert("Error while loading page", "Error while loading air status page");
+                return;
+            }
 
-            AirMolecules airMolecules = apiAirConditionController.getAirMolecules(sensorData.getId());
-
-            System.out.println(airMolecules);
-
-            paramChart.getData().clear();
-
-            paramChart.setTitle("Param: " + sensorData.getParam().getParamName() + "chart");
-
-            XYChart.Series<String, Double> series = new XYChart.Series<>();
-
-            airMolecules.getValues().forEach(moleculeValue ->
-                    series.getData().add(new XYChart.Data<>(moleculeValue.getDate().toString(), moleculeValue.getValue()))
-            );
-
-            paramChart.getData().add(series);
-
+            AirMolecules airMolecules = getAirMolecules(sensorData);
+            updateChart(sensorData, airMolecules);
         });
+    }
+
+    private void showAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private AirMolecules getAirMolecules(SensorData sensorData) {
+        AirMolecules airMolecules = apiAirConditionController.getAirMolecules(sensorData.getId());
+        List<MoleculeValue> moleculeValuesList = new ArrayList<>(airMolecules.getValues());
+        Collections.reverse(moleculeValuesList);
+        airMolecules.setValues(new LinkedHashSet<>(moleculeValuesList));
+        return airMolecules;
+    }
+
+    private void updateChart(SensorData sensorData, AirMolecules airMolecules) {
+        paramChart.getData().clear();
+        paramChart.setTitle("Param: " + sensorData.getParam().getParamName() + " chart");
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
+        airMolecules.getValues().forEach(moleculeValue ->
+                series.getData().add(new XYChart.Data<>(moleculeValue.getDate().toString(), moleculeValue.getValue()))
+        );
+        paramChart.getData().add(series);
     }
 
     public void back(ActionEvent event) {

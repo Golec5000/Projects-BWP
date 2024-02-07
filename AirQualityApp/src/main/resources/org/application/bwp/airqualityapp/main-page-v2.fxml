@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -16,18 +17,18 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="651.0" prefWidth="944.0" style="-fx-background-color: #111111;">
                <children>
-                  <ComboBox fx:id="cityNameComboBox" layoutX="181.0" layoutY="133.0" prefHeight="60.0" prefWidth="303.0" promptText="Select City" />
-                  <Label layoutX="312.0" layoutY="227.0" text="OR" textFill="#fcfcfc">
+                  <ComboBox fx:id="cityNameComboBoxByWeather" layoutX="381.0" layoutY="138.0" prefHeight="49.0" prefWidth="273.0" promptText="Select City" />
+                  <Label layoutX="310.0" layoutY="370.0" text="OR" textFill="#fcfcfc">
                      <font>
                         <Font name="Lucida Console" size="36.0" />
                      </font>
                   </Label>
-                  <Label layoutX="168.0" layoutY="312.0" text="Search City Name" textFill="#fcfcfc">
+                  <Label layoutX="169.0" layoutY="417.0" text="Search City Name" textFill="#fcfcfc">
                      <font>
                         <Font name="Lucida Console" size="36.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="cityNameSearchBar" alignment="CENTER" layoutX="159.0" layoutY="399.0" prefHeight="75.0" prefWidth="365.0" promptText="Search">
+                  <TextField fx:id="cityNameSearchBar" alignment="CENTER" layoutX="160.0" layoutY="504.0" prefHeight="75.0" prefWidth="365.0" promptText="Search">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -37,12 +38,98 @@
                         <Font name="Lucida Console" size="36.0" />
                      </font>
                   </Label>
+                  <ComboBox fx:id="cityNameComboBoxAirCondition" layoutX="381.0" layoutY="217.0" prefHeight="49.0" prefWidth="273.0" promptText="Select City" />
+                  <ComboBox fx:id="cityNameComboBoxByBoth" layoutX="381.0" layoutY="302.0" prefHeight="49.0" prefWidth="273.0" promptText="Select City" />
+                  <Label layoutX="14.0" layoutY="143.0" text="by weather" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="222.0" text="by air condition" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="307.0" text="by both" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="36.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
       </content>
     </Tab>
     <Tab fx:id="weatherPagePanel" text="Weather Page">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #111111;" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #111111;">
+               <children>
+                  <ImageView fx:id="mainPictureBox" fitHeight="205.0" fitWidth="224.0" layoutX="426.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="30.0" layoutY="50.0" text="Temperatura: " textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="tempLabel" layoutX="30.0" layoutY="102.0" text="...*C" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="30.0" layoutY="149.0" prefHeight="34.0" prefWidth="226.0" text="Location:" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="locationLabel" layoutX="30.0" layoutY="196.0" prefHeight="34.0" prefWidth="226.0" text="..." textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="locationImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="230.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="30.0" layoutY="248.0" prefHeight="34.0" prefWidth="226.0" text="Time:" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="timeLabel" layoutX="30.0" layoutY="293.0" prefHeight="34.0" prefWidth="226.0" text="..." textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="timeImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="230.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="30.0" layoutY="345.0" prefHeight="34.0" prefWidth="226.0" text="Pressure:" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pressureLabel" layoutX="30.0" layoutY="397.0" prefHeight="34.0" prefWidth="226.0" text="..." textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="pressureImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="230.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="30.0" layoutY="449.0" prefHeight="34.0" prefWidth="226.0" text="Wind speed:" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="windSpeedLabel" layoutX="30.0" layoutY="501.0" prefHeight="34.0" prefWidth="226.0" text="..." textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="30.0" layoutY="559.0" prefHeight="34.0" prefWidth="226.0" text="Rainfall:" textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="rainFallLabel" layoutX="30.0" layoutY="615.0" prefHeight="34.0" prefWidth="226.0" text="..." textFill="#fcfcfc">
+                     <font>
+                        <Font name="Lucida Console" size="31.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="windSpeedImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="247.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="rainFallImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="241.0" layoutY="554.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="tempImageBox" fitHeight="45.0" fitWidth="53.0" layoutX="274.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+               </children></AnchorPane>
       </content>
     </Tab>
       <Tab fx:id="airConditionPanel" text="Air Condition Page">
