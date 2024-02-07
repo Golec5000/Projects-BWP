@@ -17,4 +17,5 @@ module org.application.bwp.airqualityapp {
     opens org.application.bwp.airqualityapp.entity.weather to com.google.gson;
     opens org.application.bwp.airqualityapp.entity.airCondition.location to com.google.gson;
     opens org.application.bwp.airqualityapp.entity.airCondition.params to com.google.gson;
+    opens org.application.bwp.airqualityapp.entity.airCondition.molecules to com.google.gson;
 }

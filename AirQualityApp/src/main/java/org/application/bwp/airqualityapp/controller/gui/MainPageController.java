@@ -7,19 +7,23 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.application.bwp.airqualityapp.controller.api.ApiAirConditionController;
 import org.application.bwp.airqualityapp.controller.api.ApiWeatherController;
 import org.application.bwp.airqualityapp.entity.airCondition.location.Station;
+import org.application.bwp.airqualityapp.entity.airCondition.params.SensorData;
 import org.application.bwp.airqualityapp.entity.weather.WeatherStation;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.NavigableMap;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MainPageController implements Initializable {
 
@@ -48,9 +52,6 @@ public class MainPageController implements Initializable {
     private Tab mainPagePanel;
 
     @FXML
-    private Button selectedDataButton;
-
-    @FXML
     private TextField searchBar;
 
     @FXML
@@ -70,7 +71,7 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if(!cityNameCombinedMap.isEmpty()) cityNameCombinedMap.clear();
+        if (!cityNameCombinedMap.isEmpty()) cityNameCombinedMap.clear();
 
         createCityNamesCombineDataTree();
 
@@ -80,6 +81,7 @@ public class MainPageController implements Initializable {
 
         setComboBoxAction();
         setTextFieldAction();
+
 
     }
 
@@ -111,7 +113,7 @@ public class MainPageController implements Initializable {
         cityNameComboBox.setOnAction(event -> {
             String selectedCity = cityNameComboBox.getSelectionModel().getSelectedItem();
             System.out.println("Selected city: " + selectedCity);
-            if(checkIsPresentGaveData(selectedCity)){
+            if (checkIsPresentGaveData(selectedCity)) {
                 setDataForSelectedCity(selectedCity);
             }
         });
@@ -121,9 +123,9 @@ public class MainPageController implements Initializable {
         cityNameSearchBar.setOnAction(event -> {
             String enteredText = cityNameSearchBar.getText();
             System.out.println("Entered text: " + enteredText);
-            if(checkIsPresentGaveData(enteredText)){
+            if (checkIsPresentGaveData(enteredText)) {
                 setDataForSelectedCity(enteredText);
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("City not found");
@@ -134,7 +136,7 @@ public class MainPageController implements Initializable {
     }
 
     private boolean checkIsPresentGaveData(String selectedCity) {
-        if(cityNameCombinedMap.containsKey(selectedCity)) {
+        if (cityNameCombinedMap.containsKey(selectedCity)) {
             boolean[] combined = cityNameCombinedMap.get(selectedCity);
             tabsSetup(combined[0], combined[1]);
             return true;
@@ -145,7 +147,7 @@ public class MainPageController implements Initializable {
     private void setDataForSelectedCity(String selectedCity) {
 
         boolean[] combined = cityNameCombinedMap.get(selectedCity);
-        if(combined[0]) {
+        if (combined[0]) {
             List<Station> selectedCityStations = stations.stream()
                     .filter(s -> s.getCity().getName().equals(selectedCity))
                     .toList();
@@ -155,29 +157,29 @@ public class MainPageController implements Initializable {
             stationObservableList.clear();
 
             fillTable(selectedCityStations);
+            getData();
 
         }
-        if(combined[1]) {
-            boolean isPresent = weatherStations.stream()
-                    .anyMatch(w -> w.getStacja().equals(selectedCity));
+        if (combined[1]) {
+            WeatherStation weatherStation = null;
+            Optional<WeatherStation> optionalWeatherStation = weatherStations.stream()
+                    .filter(w -> w.getStacja().equals(selectedCity))
+                    .findFirst();
 
-            if(isPresent) {
-                WeatherStation selectedCityWeatherStation = weatherStations.stream()
-                        .filter(w -> w.getStacja().equals(selectedCity))
-                        .findFirst()
-                        .get();
-
-                System.out.println(selectedCityWeatherStation);
-            }else {
-                System.out.println("No weather data for this city");
+            if (optionalWeatherStation.isPresent()) {
+                weatherStation = optionalWeatherStation.get();
+                System.out.println(weatherStation);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Weather station not found");
+                alert.setContentText("Weather station for selected city not found");
+                alert.showAndWait();
             }
 
         }
 
-        System.out.println(combined[0] + " " + combined[1]);
-
         tabsSetup(!combined[0], !combined[1]);
-
 
     }
 
@@ -187,6 +189,8 @@ public class MainPageController implements Initializable {
         airConditionPanel.setDisable(airCondition);
 
         weatherPagePanel.setDisable(weather);
+
+        stationTable.setEditable(false);
 
     }
 
@@ -238,9 +242,43 @@ public class MainPageController implements Initializable {
         return matchesSearch;
     }
 
-    public void getData(ActionEvent event) {
+    public void getData() {
+        stationTable.setOnMouseClicked(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/application/bwp/airqualityapp/airCondition/air-stats.fxml"));
+
+            Parent root;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error while loading page");
+                alert.setContentText("Error while loading air status page");
+                alert.showAndWait();
+                return;
+            }
+
+            Station selectedStation = stationTable.getSelectionModel().getSelectedItem();
+
+            AirStatusPageController airStatusPageController = loader.getController();
+            if (selectedStation != null) {
+                airStatusPageController.setStationId(selectedStation.getId());
+                airStatusPageController.prepareData();
 
 
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Station not found");
+                alert.setContentText("Station for selected city not found");
+                alert.showAndWait();
+            }
+
+        });
     }
 
     //Weather Page functions
