@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -55,6 +56,7 @@
                         <Font name="Lucida Console" size="36.0" />
                      </font>
                   </Label>
+                  <TextArea fx:id="cityNamePromtTextArea" layoutX="160.0" layoutY="588.0" prefHeight="109.0" prefWidth="365.0" />
                </children></AnchorPane>
       </content>
     </Tab>

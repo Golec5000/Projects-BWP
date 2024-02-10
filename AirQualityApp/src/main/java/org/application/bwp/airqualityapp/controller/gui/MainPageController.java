@@ -104,11 +104,14 @@ public class MainPageController implements Initializable {
     @FXML
     private ImageView tempImageBox;
 
+    @FXML
+    private TextArea cityNamePromtTextArea;
+
     private final ApiAirConditionController apiAirConditionController = ApiAirConditionController.getInstance();
     private final ApiWeatherController apiWeatherController = ApiWeatherController.getInstance();
     private final ObservableList<Station> stationObservableList = FXCollections.observableArrayList();
 
-    //String -> city name, boolean[] -> [0] - airCondition, [1] - weather
+    //key: String -> city name, value: boolean[] -> [0] - airCondition, [1] - weather
     private final NavigableMap<String, boolean[]> cityNameCombinedMap = new TreeMap<>();
 
     private List<Station> stations;
@@ -118,7 +121,7 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if (!cityNameCombinedMap.isEmpty()) cityNameCombinedMap.clear();
+        updateCombineMap();
 
         createCityNamesCombineDataTree();
 
@@ -128,18 +131,50 @@ public class MainPageController implements Initializable {
         setComboBoxActions();
         setTextFieldAction();
 
+        blockPromtTextArea();
+        setCityNameSearchBar();
+
 
     }
 
+
+
     //Main Page functions
     //-------------------------------------------------------------------------------------------
+
+    private void updateCombineMap() {
+        if (!cityNameCombinedMap.isEmpty()) cityNameCombinedMap.clear();
+    }
+
+    private void blockPromtTextArea() {
+        cityNamePromtTextArea.setEditable(false);
+    }
+
+    private void setCityNameSearchBar() {
+        cityNameSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isBlank()) {
+                List<String> filteredData = filterData(newValue);
+                cityNamePromtTextArea.clear();
+
+                filteredData.forEach(city -> cityNamePromtTextArea.appendText(city + "\n"));
+            }
+        });
+
+    }
+
+    private List<String> filterData(String query) {
+        return cityNameCombinedMap.keySet().stream()
+                .filter(city -> city.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+    }
 
     private void createCityNamesCombineDataTree() {
         stations = apiAirConditionController.getAllData();
         weatherStations = apiWeatherController.getAllData();
 
         stations.forEach(station -> {
-            if (station.getAddressStreet() == null || station.getAddressStreet().isBlank()) station.setAddressStreet("No address");
+            if (station.getAddressStreet() == null || station.getAddressStreet().isBlank())
+                station.setAddressStreet("No address");
 
             cityNameCombinedMap.put(station.getCity().getName(), new boolean[]{true, false});
         });
@@ -158,16 +193,41 @@ public class MainPageController implements Initializable {
     }
 
     private void setComboBoxAction(ComboBox<String> comboBox) {
-        comboBox.setOnAction(event -> {
+        comboBox.setOnAction(event ->{
             String selectedCity = comboBox.getSelectionModel().getSelectedItem();
-            System.out.println("Selected city: " + selectedCity);
+
             if (checkIsPresentGaveData(selectedCity)) {
+                System.out.println("Selected city: " + selectedCity);
                 setDataForSelectedCity(selectedCity);
+
+                resetSelectionInTwoRemainingComboBoxes(comboBox);
+                resetPromtText();
             }
         });
     }
 
+    private void resetSelectionInTwoRemainingComboBoxes(ComboBox<String> selectedComboBox) {
+        if (selectedComboBox != cityNameComboBoxByBoth) {
+            cityNameComboBoxByBoth.getSelectionModel().select(0);
+        }
+        if (selectedComboBox != cityNameComboBoxAirCondition) {
+            cityNameComboBoxAirCondition.getSelectionModel().select(0);
+        }
+        if (selectedComboBox != cityNameComboBoxByWeather) {
+            cityNameComboBoxByWeather.getSelectionModel().select(0);
+        }
+    }
+
+    private void resetPromtText() {
+        cityNamePromtTextArea.clear();
+        cityNameSearchBar.clear();
+    }
+
     private void fillComboBox(NavigableMap<String, boolean[]> cityNameCombinedMap, ComboBox<String> comboBoxes) {
+
+        if(comboBoxes.getItems() != null) comboBoxes.getItems().clear();
+
+        comboBoxes.getItems().add("Select city");
         comboBoxes.getItems().addAll(cityNameCombinedMap.keySet());
     }
 
@@ -190,6 +250,7 @@ public class MainPageController implements Initializable {
             System.out.println("Entered text: " + enteredText);
             if (checkIsPresentGaveData(enteredText)) {
                 setDataForSelectedCity(enteredText);
+                resetSelectionInTwoRemainingComboBoxes(null); //reset all comboBoxes
             } else {
                 showAlert("City not found", "Please enter a valid city name");
             }
@@ -197,7 +258,7 @@ public class MainPageController implements Initializable {
     }
 
     private boolean checkIsPresentGaveData(String selectedCity) {
-        if (cityNameCombinedMap.containsKey(selectedCity)) {
+        if (selectedCity != null && !selectedCity.equals("Select city") && cityNameCombinedMap.containsKey(selectedCity)) {
             boolean[] combined = cityNameCombinedMap.get(selectedCity);
             tabsSetup(combined[0], combined[1]);
             return true;
@@ -230,7 +291,6 @@ public class MainPageController implements Initializable {
                 .filter(w -> w.getStacja().equals(selectedCity))
                 .findFirst();
         if (optionalWeatherStation.isPresent()) {
-
             setUpWeatherPage(optionalWeatherStation.get());
         } else {
             showAlert("Weather station not found", "Weather station for selected city not found");
@@ -335,36 +395,39 @@ public class MainPageController implements Initializable {
     //-------------------------------------------------------------------------------------------
 
     private void setUpWeatherPage(WeatherStation weatherStation) {
-
-        pictureLoad(mainPictureBox, "sun.jpg");
-
-        tempLabel.setText(weatherStation.getTemperatura() + " °C");
-        pictureLoad(tempImageBox, "temp.jpg");
-
-        timeLabel.setText(weatherStation.getGodzina_pomiaru() + ":00");
-        pictureLoad(timeImageBox, "clock.jpg");
-
-        locationLabel.setText(weatherStation.getStacja());
-        pictureLoad(locationImageBox, "location.jpg");
-
-        windSpeedLabel.setText(weatherStation.getPredkosc_wiatru() + " m/s");
-        pictureLoad(windSpeedImageBox, "wind.jpg");
-
-        pressureLabel.setText(weatherStation.getCisnienie() + " hPa");
-        pictureLoad(pressureImageBox, "pressure.jpg");
-
-        rainFallLabel.setText(weatherStation.getSuma_opadu() + " mm");
-        pictureLoad(rainFallImageBox, "rainfall.jpg");
-
-
+        setLabelAndImage(mainPictureBox, "sun.jpg", null);
+        setLabelAndImage(tempImageBox, "temp.jpg", weatherStation.getTemperatura() + " °C");
+        setLabelAndImage(timeImageBox, "clock.jpg", weatherStation.getGodzina_pomiaru() + ":00");
+        setLabelAndImage(locationImageBox, "location.jpg", weatherStation.getStacja());
+        setLabelAndImage(windSpeedImageBox, "wind.jpg", weatherStation.getPredkosc_wiatru() + " m/s");
+        setLabelAndImage(pressureImageBox, "pressure.jpg", weatherStation.getCisnienie() + " hPa");
+        setLabelAndImage(rainFallImageBox, "rainfall.jpg", weatherStation.getSuma_opadu() + " mm");
     }
 
-    private void pictureLoad(ImageView imageView, String path){
-        try{
+    private void setLabelAndImage(ImageView imageView, String imagePath, String labelText) {
+        pictureLoad(imageView, imagePath);
+        if (labelText != null) {
+            Label correspondingLabel = getCorrespondingLabel(imageView);
+            Objects.requireNonNull(correspondingLabel).setText(labelText);
+        }
+    }
+
+    private Label getCorrespondingLabel(ImageView imageView) {
+        if (imageView == tempImageBox) return tempLabel;
+        if (imageView == timeImageBox) return timeLabel;
+        if (imageView == locationImageBox) return locationLabel;
+        if (imageView == windSpeedImageBox) return windSpeedLabel;
+        if (imageView == pressureImageBox) return pressureLabel;
+        if (imageView == rainFallImageBox) return rainFallLabel;
+        return null;
+    }
+
+    private void pictureLoad(ImageView imageView, String path) {
+        try {
             String mainPicturePath = "/org/application/bwp/airqualityapp/image/";
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(mainPicturePath + path)));
             imageView.setImage(image);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
             showAlert("Error while loading image", "Error while loading " + path + " image");
         }

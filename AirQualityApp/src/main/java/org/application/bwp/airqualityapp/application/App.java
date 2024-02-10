@@ -23,7 +23,7 @@ public class App extends Application {
 
         try {
 
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/airqualityapp/main-page-v2.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/airqualityapp/mainPage/main-page-v2.fxml")));
 
         } catch (IOException e) {
 
@@ -36,7 +36,7 @@ public class App extends Application {
         }
 
         Scene scene = new Scene(root);
-        stage.setTitle("Air Quality App");
+        stage.setTitle("Weather and Air Quality App");
         stage.setScene(scene);
         stage.show();
 

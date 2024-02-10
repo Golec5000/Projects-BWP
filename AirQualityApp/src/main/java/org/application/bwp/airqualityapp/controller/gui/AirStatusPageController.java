@@ -47,6 +47,9 @@ public class AirStatusPageController implements Initializable {
     @FXML
     private LineChart<String, Double> paramChart;
 
+    @FXML
+    private Tab chartTab;
+
     private final ObservableList<SensorData> sensorDataObservableList = FXCollections.observableArrayList();
 
     private final ApiAirConditionController apiAirConditionController = ApiAirConditionController.getInstance();
@@ -100,6 +103,8 @@ public class AirStatusPageController implements Initializable {
     }
 
     public void getData() {
+        chartTab.setDisable(true);
+
         stationTable.setOnMouseClicked(event -> {
             SensorData sensorData = stationTable.getSelectionModel().getSelectedItem();
             if(sensorData == null) {
@@ -136,20 +141,17 @@ public class AirStatusPageController implements Initializable {
                 series.getData().add(new XYChart.Data<>(moleculeValue.getDate().toString(), moleculeValue.getValue()))
         );
         paramChart.getData().add(series);
+        chartTab.setDisable(false);
     }
 
     public void back(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/application/bwp/airqualityapp/main-page-v2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/application/bwp/airqualityapp/mainPage/main-page-v2.fxml"));
 
         Parent root;
         try {
             root = loader.load();
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error while loading page");
-            alert.setContentText("Error while loading air status page");
-            alert.showAndWait();
+            showAlert("Error while loading page", "Error while loading main page");
             return;
         }
 
