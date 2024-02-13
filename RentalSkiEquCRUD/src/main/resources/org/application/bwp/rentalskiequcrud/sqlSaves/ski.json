@@ -1,0 +1,5 @@
+[
+  {"id": 1, "rodzaj": "Narty carvingowe", "dlugosc": 160},
+  {"id": 2, "rodzaj": "Narty freeride", "dlugosc": 180},
+  {"id": 3, "rodzaj": "Narty alpejskie", "dlugosc": 170}
+]
