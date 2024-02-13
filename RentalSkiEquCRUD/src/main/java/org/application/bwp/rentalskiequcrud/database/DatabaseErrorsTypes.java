@@ -8,6 +8,7 @@ public enum DatabaseErrorsTypes {
     DELETE_ERROR,
     SELECT_ERROR,
     CONNECTION_ERROR,
-    DROP_DATABASE_ERROR
+    DROP_DATABASE_ERROR,
+    SAVE_DATA_TO_FILE_ERROR
 
 }

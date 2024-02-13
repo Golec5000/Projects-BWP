@@ -10,6 +10,7 @@ public interface DatabaseService {
 
 
     //create database and tables methods
+    boolean checkIfDatabaseExist();
     boolean createDatabase();
     boolean createCustomerTable();
     boolean createSkiTable();
@@ -29,6 +30,10 @@ public interface DatabaseService {
 
 
     //save data from tables to file
+
+    boolean saveSkiDataToFile();
+    boolean saveCustomerDataToFile();
+    boolean saveReservationDataToFile();
 
     //drop database
     boolean dropDatabase();

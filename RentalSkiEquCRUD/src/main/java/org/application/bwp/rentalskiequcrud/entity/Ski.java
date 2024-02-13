@@ -1,8 +1,9 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
 import org.application.bwp.rentalskiequcrud.entity.buildres.SkiBuilder;
+import org.application.bwp.rentalskiequcrud.jsonFile.adapters.JsonFileFormatInterface;
 
-public class Ski implements SkiBuilder {
+public class Ski implements SkiBuilder, JsonFileFormatInterface {
     private int id;
     private String rodzaj;
     private int dlugosc;
@@ -48,5 +49,10 @@ public class Ski implements SkiBuilder {
                 ", rodzaj='" + rodzaj + '\'' +
                 ", dlugosc=" + dlugosc +
                 '}';
+    }
+
+    @Override
+    public String jsonBuilder() {
+        return "{ \"id\": " + id + ", \"rodzaj\": \"" + rodzaj + "\", \"dlugosc\": " + dlugosc + " }";
     }
 }

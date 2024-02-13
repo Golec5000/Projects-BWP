@@ -3,10 +3,11 @@ package org.application.bwp.rentalskiequcrud.entity;
 import org.application.bwp.rentalskiequcrud.entity.buildres.ReservationBuilder;
 import org.application.bwp.rentalskiequcrud.entity.enums.Payment;
 import org.application.bwp.rentalskiequcrud.entity.enums.Status;
+import org.application.bwp.rentalskiequcrud.jsonFile.adapters.JsonFileFormatInterface;
 
 import java.time.LocalDate;
 
-public class Reservation implements ReservationBuilder {
+public class Reservation implements ReservationBuilder, JsonFileFormatInterface {
     private int id;
     private int id_narty;
     private int id_klient;
@@ -103,5 +104,17 @@ public class Reservation implements ReservationBuilder {
                 ", status=" + status +
                 ", platnosc=" + platnosc +
                 '}';
+    }
+
+    @Override
+    public String jsonBuilder() {
+        return "{ \"id\": " + id +
+                ", \"id_narty\": " + id_narty +
+                ", \"id_klient\": " + id_klient +
+                ", \"data_poczatkowa\": \"" + data_poczatkowa +
+                "\", \"data_koncowa\": \"" + data_koncowa +
+                "\", \"status\": \"" + status +
+                "\", \"platnosc\": \"" + platnosc +
+                "\" }";
     }
 }

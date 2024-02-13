@@ -6,40 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.application.bwp.rentalskiequcrud.database.DatabaseConnector;
-import org.application.bwp.rentalskiequcrud.database.DatabaseService;
-import org.application.bwp.rentalskiequcrud.database.DatabaseServiceImp;
-import org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile.JsonReadFromFile;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MenagerApp extends Application {
 
-    private final DatabaseConnector dataBaseConnector = DatabaseConnector.getInstance();
-
-    private final DatabaseService databaseService = DatabaseServiceImp.getInstance();
-
-    private final JsonReadFromFile jsonReadFromFile = JsonReadFromFile.getInstance();
-
     @Override
-    public void start(Stage stage){
-
-        try (Connection ignored = dataBaseConnector.getConnection()) {
-
-            System.out.println("Connected to the database!");
-
-            sceneOn(stage);
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void sceneOn(Stage stage) {
+    public void start(Stage stage) {
         Parent root;
 
         try {
@@ -48,12 +23,12 @@ public class MenagerApp extends Application {
 
         } catch (IOException | NullPointerException e) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Błąd");
             alert.setHeaderText("Błąd ładowania pliku fxml");
             alert.setContentText("Sprawdź pliki aplikacji " + e.getMessage());
             alert.showAndWait();
-
+            System.out.println(Arrays.toString(e.getStackTrace()));
             return;
         }
 

@@ -1,5 +1,7 @@
 [
-  {"id": 1, "nazwa": "Firma ABC"},
-  {"id": 2, "nazwa": "Kowalski Sp. z o.o."},
-  {"id": 3, "nazwa": "Nowak Consulting"}
+{ "id": 1, "nazwa": "Klient1" },
+{ "id": 2, "nazwa": "Klient2" },
+{ "id": 3, "nazwa": "Klient3" },
+{ "id": 4, "nazwa": "Klient4" },
+{ "id": 5, "nazwa": "Klient5" }
 ]

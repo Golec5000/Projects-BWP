@@ -11,6 +11,7 @@ module org.application.bwp.rentalskiequcrud {
     exports org.application.bwp.rentalskiequcrud.gui;
     exports org.application.bwp.rentalskiequcrud.jsonFile.adapters;
     exports org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile;
+    exports org.application.bwp.rentalskiequcrud.jsonFile.writerToFile;
     exports org.application.bwp.rentalskiequcrud.entity.enums;
     exports org.application.bwp.rentalskiequcrud.entity.buildres;
 
@@ -20,6 +21,7 @@ module org.application.bwp.rentalskiequcrud {
     opens org.application.bwp.rentalskiequcrud.gui;
     opens org.application.bwp.rentalskiequcrud.jsonFile.adapters;
     opens org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile;
+    opens org.application.bwp.rentalskiequcrud.jsonFile.writerToFile;
     opens org.application.bwp.rentalskiequcrud.entity.enums;
     opens org.application.bwp.rentalskiequcrud.entity.buildres;
 }

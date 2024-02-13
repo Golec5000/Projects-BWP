@@ -1,5 +1,7 @@
 [
-  {"id": 1, "id_narty": 1, "id_klient": 1, "data_poczatkowa": "2024-02-15", "data_koncowa": "2024-02-20", "status": "ZALOZONA", "platnosc": "OPLACONA"},
-  {"id": 2, "id_narty": 2, "id_klient": 2, "data_poczatkowa": "2024-03-01", "data_koncowa": "2024-03-10", "status": "ROZPOCZETA", "platnosc": "NIEOPLACONA"},
-  {"id": 3, "id_narty": 3, "id_klient": 3, "data_poczatkowa": "2024-04-05", "data_koncowa": "2024-04-15", "status": "ZAKONCZONA", "platnosc": "OPLACONA"}
+{ "id": 1, "id_narty": 2, "id_klient": 1, "data_poczatkowa": "2024-03-01", "data_koncowa": "2024-03-05", "status": "ZALOZONA", "platnosc": "OPLACONA" },
+{ "id": 2, "id_narty": 4, "id_klient": 3, "data_poczatkowa": "2024-02-15", "data_koncowa": "2024-02-20", "status": "ROZPOCZETA", "platnosc": "OPLACONA" },
+{ "id": 3, "id_narty": 1, "id_klient": 2, "data_poczatkowa": "2024-04-10", "data_koncowa": "2024-04-15", "status": "ZAKONCZONA", "platnosc": "OPLACONA" },
+{ "id": 4, "id_narty": 3, "id_klient": 5, "data_poczatkowa": "2024-03-20", "data_koncowa": "2024-03-25", "status": "WYCOFANA", "platnosc": "NIEOPLACONA" },
+{ "id": 5, "id_narty": 5, "id_klient": 4, "data_poczatkowa": "2024-02-01", "data_koncowa": "2024-02-05", "status": "ZALOZONA", "platnosc": "OPLACONA" }
 ]

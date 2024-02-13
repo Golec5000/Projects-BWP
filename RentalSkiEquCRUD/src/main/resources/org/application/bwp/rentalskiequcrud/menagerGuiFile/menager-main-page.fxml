@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.application.bwp.rentalskiequcrud.gui.MenagerMainPageController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1078.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="org.application.bwp.rentalskiequcrud.gui.MenagerMainPageController">
+  <tabs>
+      <Tab text="Zarządznie bazą danych">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="initDbButton" layoutX="59.0" layoutY="75.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Inizjalizuj bazę danych" />
+                  <Button fx:id="saveDbButton" layoutX="59.0" layoutY="257.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Zapisz aktualny stan bazy danych" />
+                  <Button fx:id="dropBbButton" layoutX="59.0" layoutY="357.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Wyłącz bazę" />
+                  <Button fx:id="loadSaveDbButton" layoutX="59.0" layoutY="162.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Wczytaj zapisaną bazę" />
+                  <ImageView fx:id="logoImageView" fitHeight="630.0" fitWidth="663.0" layoutX="383.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+    <Tab fx:id="customersTab" text="Klienci">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+    <Tab fx:id="magazineTab" text="Stan mazazynu">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+      <Tab fx:id="reservationTab" text="Rezerwacje">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

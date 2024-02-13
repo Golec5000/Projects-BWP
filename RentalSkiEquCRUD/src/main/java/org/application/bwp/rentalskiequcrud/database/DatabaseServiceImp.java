@@ -6,6 +6,7 @@ import org.application.bwp.rentalskiequcrud.entity.Ski;
 import org.application.bwp.rentalskiequcrud.entity.enums.Payment;
 import org.application.bwp.rentalskiequcrud.entity.enums.Status;
 import org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile.JsonReadFromFile;
+import org.application.bwp.rentalskiequcrud.jsonFile.writerToFile.JsonWriteToFile;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +27,15 @@ public class DatabaseServiceImp implements DatabaseService {
 
     private final DatabaseConnector dataBaseConnector = DatabaseConnector.getInstance();
     private final JsonReadFromFile jsonReadFromFile = JsonReadFromFile.getInstance();
+
+    @Override
+    public boolean checkIfDatabaseExist() {
+        try(Connection ignored = dataBaseConnector.getConnectionToSnowRental()) {
+            return true;
+        }catch (SQLException e) {
+            return false;
+        }
+    }
 
     @Override
     public boolean createDatabase() {
@@ -308,6 +318,34 @@ public class DatabaseServiceImp implements DatabaseService {
             dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public boolean saveSkiDataToFile() {
+        JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
+        boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllSki());
+
+        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        return isCorrectSave;
+    }
+
+
+    @Override
+    public boolean saveCustomerDataToFile() {
+        JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
+        boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllCustomer());
+
+        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        return isCorrectSave;
+    }
+
+    @Override
+    public boolean saveReservationDataToFile() {
+        JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
+        boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllReservation());
+
+        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        return isCorrectSave;
     }
 
     @Override

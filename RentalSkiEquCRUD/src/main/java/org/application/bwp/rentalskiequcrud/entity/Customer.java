@@ -1,8 +1,9 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
 import org.application.bwp.rentalskiequcrud.entity.buildres.CustomerBuilder;
+import org.application.bwp.rentalskiequcrud.jsonFile.adapters.JsonFileFormatInterface;
 
-public class Customer implements CustomerBuilder {
+public class Customer implements CustomerBuilder , JsonFileFormatInterface {
     private int id;
 
     private String nazwa;
@@ -36,5 +37,10 @@ public class Customer implements CustomerBuilder {
                 "id=" + id +
                 ", name='" + nazwa + '\'' +
                 '}';
+    }
+
+    @Override
+    public String jsonBuilder() {
+        return "{ \"id\": " + id + ", \"nazwa\": \"" + nazwa + "\" }";
     }
 }
