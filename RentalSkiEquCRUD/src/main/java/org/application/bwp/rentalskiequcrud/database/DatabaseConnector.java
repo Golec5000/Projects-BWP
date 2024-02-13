@@ -1,8 +1,11 @@
 package org.application.bwp.rentalskiequcrud.database;
 
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class DatabaseConnector {
 
@@ -26,11 +29,18 @@ public class DatabaseConnector {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public Connection getConnection(String database) throws SQLException {
-        return DriverManager.getConnection(URL + "/" + database, USER, PASSWORD);
+    public Connection getConnectionToSnowRental() throws SQLException {
+        return DriverManager.getConnection(URL + "/" + DB_NAME, USER, PASSWORD);
     }
 
-    public String getDB_NAME() {
-        return DB_NAME;
+    public void handleDatabaseError(SQLException e,DatabaseErrorsTypes errorType) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd");
+        alert.setHeaderText("Błąd " + errorType);
+        alert.setContentText("Sprawdź " + errorType + " " + e.getMessage());
+        System.out.println("Błąd " + errorType + " " + e.getMessage());
+        System.out.println(Arrays.toString(e.getStackTrace()));
+        alert.showAndWait();
     }
+
 }

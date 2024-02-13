@@ -1,38 +1,44 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
-public class Ski {
+import org.application.bwp.rentalskiequcrud.entity.buildres.SkiBuilder;
+
+public class Ski implements SkiBuilder {
     private int id;
     private String rodzaj;
     private int dlugosc;
-
-    public Ski(int id, String rodzaj, int dlugosc) {
-        this.id = id;
-        this.rodzaj = rodzaj;
-        this.dlugosc = dlugosc;
-    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    @Override
+    public SkiBuilder setId(int id) {
         this.id = id;
+        return this;
     }
 
     public String getRodzaj() {
         return rodzaj;
     }
 
-    public void setRodzaj(String rodzaj) {
+    @Override
+    public SkiBuilder setRodzaj(String rodzaj) {
         this.rodzaj = rodzaj;
+        return this;
     }
 
     public int getDlugosc() {
         return dlugosc;
     }
 
-    public void setDlugosc(int dlugosc) {
+    @Override
+    public SkiBuilder setDlugosc(int dlugosc) {
         this.dlugosc = dlugosc;
+        return this;
+    }
+
+    public Ski build() {
+        return this;
     }
 
     @Override

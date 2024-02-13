@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.application.bwp.rentalskiequcrud.database.DatabaseConnector;
+import org.application.bwp.rentalskiequcrud.database.DatabaseService;
+import org.application.bwp.rentalskiequcrud.database.DatabaseServiceImp;
 import org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile.JsonReadFromFile;
 
 import java.io.IOException;
@@ -18,6 +20,8 @@ public class MenagerApp extends Application {
 
     private final DatabaseConnector dataBaseConnector = DatabaseConnector.getInstance();
 
+    private final DatabaseService databaseService = DatabaseServiceImp.getInstance();
+
     private final JsonReadFromFile jsonReadFromFile = JsonReadFromFile.getInstance();
 
     @Override
@@ -28,6 +32,7 @@ public class MenagerApp extends Application {
             System.out.println("Connected to the database!");
 
             sceneOn(stage);
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -1,29 +1,33 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
-public class Customer {
+import org.application.bwp.rentalskiequcrud.entity.buildres.CustomerBuilder;
+
+public class Customer implements CustomerBuilder {
     private int id;
 
     private String nazwa;
-
-    public Customer(int id, String nazwa) {
-        this.id = id;
-        this.nazwa = nazwa;
-    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public CustomerBuilder setId(int id) {
         this.id = id;
+        return this;
     }
 
     public String getNazwa() {
         return nazwa;
     }
 
-    public void setNazwa(String nazwa) {
+    public CustomerBuilder setNazwa(String nazwa) {
         this.nazwa = nazwa;
+        return this;
+    }
+
+    @Override
+    public Customer build() {
+        return this;
     }
 
     @Override

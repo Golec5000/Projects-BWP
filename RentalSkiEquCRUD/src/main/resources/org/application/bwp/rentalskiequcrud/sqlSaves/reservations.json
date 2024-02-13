@@ -1,5 +1,5 @@
 [
-  {"id": 1, "id_narty": 1, "id_klienta": 1, "data_poczatkowa": "2024-02-15", "data_koncowa": "2024-02-20", "status": "ZALOZONA", "platnosc": "DOKONANA"},
-  {"id": 2, "id_narty": 2, "id_klienta": 2, "data_poczatkowa": "2024-03-01", "data_koncowa": "2024-03-10", "status": "ROZPOCZETA", "platnosc": "NIEDOKONANA"},
-  {"id": 3, "id_narty": 3, "id_klienta": 3, "data_poczatkowa": "2024-04-05", "data_koncowa": "2024-04-15", "status": "ZAKONCZONA", "platnosc": "DOKONANA"}
+  {"id": 1, "id_narty": 1, "id_klient": 1, "data_poczatkowa": "2024-02-15", "data_koncowa": "2024-02-20", "status": "ZALOZONA", "platnosc": "OPLACONA"},
+  {"id": 2, "id_narty": 2, "id_klient": 2, "data_poczatkowa": "2024-03-01", "data_koncowa": "2024-03-10", "status": "ROZPOCZETA", "platnosc": "NIEOPLACONA"},
+  {"id": 3, "id_narty": 3, "id_klient": 3, "data_poczatkowa": "2024-04-05", "data_koncowa": "2024-04-15", "status": "ZAKONCZONA", "platnosc": "OPLACONA"}
 ]

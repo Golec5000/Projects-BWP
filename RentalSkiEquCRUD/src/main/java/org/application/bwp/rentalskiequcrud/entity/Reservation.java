@@ -1,11 +1,12 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
+import org.application.bwp.rentalskiequcrud.entity.buildres.ReservationBuilder;
 import org.application.bwp.rentalskiequcrud.entity.enums.Payment;
 import org.application.bwp.rentalskiequcrud.entity.enums.Status;
 
 import java.time.LocalDate;
 
-public class Reservation {
+public class Reservation implements ReservationBuilder {
     private int id;
     private int id_narty;
     private int id_klient;
@@ -16,70 +17,79 @@ public class Reservation {
 
     private Payment platnosc;
 
-    public Reservation(int id, int id_narty, int id_klient, LocalDate data_poczatkowa, LocalDate data_koncowa, Status status, Payment platnosc) {
-        this.id = id;
-        this.id_narty = id_narty;
-        this.id_klient = id_klient;
-        this.data_poczatkowa = data_poczatkowa;
-        this.data_koncowa = data_koncowa;
-        this.status = status;
-        this.platnosc = platnosc;
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    @Override
+    public ReservationBuilder setId(int id) {
         this.id = id;
+        return this;
     }
 
     public int getId_narty() {
         return id_narty;
     }
 
-    public void setId_narty(int id_narty) {
+    @Override
+    public ReservationBuilder setId_narty(int id_narty) {
         this.id_narty = id_narty;
+        return this;
     }
 
     public int getId_klient() {
         return id_klient;
     }
 
-    public void setId_klient(int id_klient) {
+    @Override
+    public ReservationBuilder setId_klient(int id_klient) {
         this.id_klient = id_klient;
+        return this;
     }
 
     public LocalDate getData_poczatkowa() {
         return data_poczatkowa;
     }
 
-    public void setData_poczatkowa(LocalDate data_poczatkowa) {
+    @Override
+    public ReservationBuilder setData_poczatkowa(LocalDate data_poczatkowa) {
         this.data_poczatkowa = data_poczatkowa;
+        return this;
     }
 
     public LocalDate getData_koncowa() {
         return data_koncowa;
     }
 
-    public void setData_koncowa(LocalDate data_koncowa) {
+    @Override
+    public ReservationBuilder setData_koncowa(LocalDate data_koncowa) {
         this.data_koncowa = data_koncowa;
+        return this;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    @Override
+    public ReservationBuilder setStatus(Status status) {
         this.status = status;
+        return this;
     }
 
     public Payment getPlatnosc() {
         return platnosc;
     }
 
-    public void setPlatnosc(Payment platnosc) {
+    @Override
+    public ReservationBuilder setPlatnosc(Payment platnosc) {
         this.platnosc = platnosc;
+        return this;
+    }
+
+    @Override
+    public Reservation build() {
+        return this;
     }
 
     @Override

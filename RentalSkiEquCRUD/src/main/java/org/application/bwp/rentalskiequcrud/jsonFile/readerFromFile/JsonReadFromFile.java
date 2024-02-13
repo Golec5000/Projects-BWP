@@ -3,6 +3,7 @@ package org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.control.Alert;
 import org.application.bwp.rentalskiequcrud.entity.Customer;
 import org.application.bwp.rentalskiequcrud.entity.Reservation;
 import org.application.bwp.rentalskiequcrud.entity.Ski;
@@ -33,7 +34,7 @@ public class JsonReadFromFile {
             return new Gson().fromJson(reader, new TypeToken<List<Ski>>() {
             }.getType());
         } catch (Exception e) {
-            System.err.println("Failed to read ski data from " + FILE_PATH_SKI);
+           errorHandler(e);
             return Collections.emptyList();
         }
 
@@ -45,7 +46,7 @@ public class JsonReadFromFile {
             return new Gson().fromJson(reader, new TypeToken<List<Customer>>() {
             }.getType());
         } catch (Exception e) {
-            System.err.println("Failed to read customer data from " + FILE_PATH_CUSTOMER);
+           errorHandler(e);
             return Collections.emptyList();
         }
 
@@ -61,9 +62,29 @@ public class JsonReadFromFile {
             return gson.fromJson(reader, new TypeToken<List<Reservation>>() {
             }.getType());
         } catch (Exception e) {
-            System.err.println("Failed to read rental data from " + FILE_PATH_RENTAL);
+            errorHandler(e);
             return Collections.emptyList();
         }
 
+    }
+
+    public void errorHandler(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd");
+        alert.setHeaderText("Błąd odczytu pliku");
+        alert.setContentText("Sprawdź plik " + e.getMessage());
+        alert.showAndWait();
+    }
+
+    public boolean isListEmpty(List<?> list) {
+        if(list.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Uwaga");
+            alert.setHeaderText("Brak danych do wstawienia");
+            alert.setContentText("Sprawdź plik z danymi");
+            alert.showAndWait();
+            return true;
+        }
+        return false;
     }
 }
