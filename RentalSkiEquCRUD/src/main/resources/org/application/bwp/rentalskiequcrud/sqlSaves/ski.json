@@ -1,7 +1,7 @@
 [
-{ "id": 1, "rodzaj": "Narta1", "dlugosc": 160 },
-{ "id": 2, "rodzaj": "Narta2", "dlugosc": 170 },
-{ "id": 3, "rodzaj": "Narta3", "dlugosc": 150 },
-{ "id": 4, "rodzaj": "Narta4", "dlugosc": 175 },
-{ "id": 5, "rodzaj": "Narta5", "dlugosc": 165 }
+{ "id": 1, "rodzaj": "Narta1", "dlugosc": 160, "status": "DOSTEPNE" },
+{ "id": 2, "rodzaj": "Narta2", "dlugosc": 170, "status": "DOSTEPNE" },
+{ "id": 3, "rodzaj": "Narta3", "dlugosc": 150, "status": "DOSTEPNE" },
+{ "id": 4, "rodzaj": "Narta4", "dlugosc": 175, "status": "DOSTEPNE" },
+{ "id": 5, "rodzaj": "Narta5", "dlugosc": 165, "status": "DOSTEPNE" }
 ]

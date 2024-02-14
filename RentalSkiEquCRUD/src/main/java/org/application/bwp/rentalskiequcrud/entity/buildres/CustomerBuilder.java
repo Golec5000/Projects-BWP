@@ -6,4 +6,5 @@ public interface CustomerBuilder {
     CustomerBuilder setId(int id);
     CustomerBuilder setNazwa(String nazwa);
     Customer build();
+    Customer setPassword(String password);
 }

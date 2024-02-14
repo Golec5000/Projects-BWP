@@ -1,12 +1,14 @@
 package org.application.bwp.rentalskiequcrud.entity;
 
 import org.application.bwp.rentalskiequcrud.entity.buildres.SkiBuilder;
+import org.application.bwp.rentalskiequcrud.entity.enums.Status;
 import org.application.bwp.rentalskiequcrud.jsonFile.adapters.JsonFileFormatInterface;
 
 public class Ski implements SkiBuilder, JsonFileFormatInterface {
     private int id;
     private String rodzaj;
     private int dlugosc;
+    private Status status;
 
     public int getId() {
         return id;
@@ -38,6 +40,16 @@ public class Ski implements SkiBuilder, JsonFileFormatInterface {
         return this;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    @Override
+    public SkiBuilder setStatus(Status status) {
+        this.status = status;
+        return this;
+    }
+
     public Ski build() {
         return this;
     }
@@ -53,6 +65,6 @@ public class Ski implements SkiBuilder, JsonFileFormatInterface {
 
     @Override
     public String jsonBuilder() {
-        return "{ \"id\": " + id + ", \"rodzaj\": \"" + rodzaj + "\", \"dlugosc\": " + dlugosc + " }";
+        return "{ \"id\": " + id + ", \"rodzaj\": \"" + rodzaj + "\", \"dlugosc\": " + dlugosc + ", \"status\": \"" + status + "\" }";
     }
 }

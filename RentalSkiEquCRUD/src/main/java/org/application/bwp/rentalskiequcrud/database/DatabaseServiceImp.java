@@ -63,7 +63,8 @@ public class DatabaseServiceImp implements DatabaseService {
         try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
             String sql = "CREATE TABLE IF NOT EXISTS klienci  (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
-                    "nazwa VARCHAR(255) NOT NULL" +
+                    "nazwa VARCHAR(255) NOT NULL," +
+                    "password VARCHAR(255) NOT NULL" +
                     ")";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -86,7 +87,8 @@ public class DatabaseServiceImp implements DatabaseService {
             String sql = "CREATE TABLE IF NOT EXISTS narty  (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "rodzaj VARCHAR(255) NOT NULL," +
-                    "rozmiar INT NOT NULL" +
+                    "rozmiar INT NOT NULL," +
+                    "status ENUM('DOSTEPNE', 'NIEDOSTEPNE') NOT NULL" +
                     ")";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -139,12 +141,13 @@ public class DatabaseServiceImp implements DatabaseService {
         if(jsonReadFromFile.isListEmpty(skiList)) return false;
 
         try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
-            String sql = "INSERT INTO narty (rodzaj, rozmiar) VALUES (?, ?)";
+            String sql = "INSERT INTO narty (rodzaj, rozmiar, status) VALUES (?, ?, ?)"; // updated SQL
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 for (Ski ski : skiList) {
                     preparedStatement.setString(1, ski.getRodzaj());
                     preparedStatement.setInt(2, ski.getDlugosc());
+                    preparedStatement.setString(3, ski.getStatus().toString()); // insert status
                     preparedStatement.execute();
                 }
                 return true;
@@ -166,11 +169,12 @@ public class DatabaseServiceImp implements DatabaseService {
         if(jsonReadFromFile.isListEmpty(customerList)) return false;
 
         try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
-            String sql = "INSERT INTO klienci (nazwa) VALUES (?)";
+            String sql = "INSERT INTO klienci (nazwa, password) VALUES (?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 for (Customer customer : customerList) {
                     preparedStatement.setString(1, customer.getNazwa());
+                    preparedStatement.setString(2, customer.getPassword());
                     preparedStatement.execute();
                 }
                 return true;
@@ -188,8 +192,6 @@ public class DatabaseServiceImp implements DatabaseService {
     @Override
     public boolean insertReservationData() {
         List<Reservation> reservationList = jsonReadFromFile.readRental();
-
-        reservationList.forEach(System.out::println);
 
         if(jsonReadFromFile.isListEmpty(reservationList)) return false;
 
@@ -235,6 +237,7 @@ public class DatabaseServiceImp implements DatabaseService {
                             .setId(resultSet.getInt("id"))
                             .setRodzaj(resultSet.getString("rodzaj"))
                             .setDlugosc(resultSet.getInt("rozmiar"))
+                            .setStatus(Status.valueOf(resultSet.getString("status")))
                             .build();
                     skiList.add(ski);
                 }
@@ -304,6 +307,7 @@ public class DatabaseServiceImp implements DatabaseService {
                     Customer customer = new Customer()
                             .setId(resultSet.getInt("id"))
                             .setNazwa(resultSet.getString("nazwa"))
+                            .setPassword(resultSet.getString("password"))
                             .build();
                     customerList.add(customer);
                 }

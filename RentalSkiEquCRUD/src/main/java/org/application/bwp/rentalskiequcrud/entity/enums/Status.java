@@ -4,5 +4,7 @@ public enum Status {
     ZALOZONA,
     WYCOFANA,
     ROZPOCZETA,
-    ZAKONCZONA
+    ZAKONCZONA,
+    DOSTEPNE,
+    NIEDOSTEPNE
 }

@@ -61,6 +61,7 @@ public class MenagerMainPageController implements Initializable {
             customersTab.setDisable(false);
 
             initDbButton.setDisable(true);
+            loadSaveDbButton.setDisable(true);
 
             magazineTab.setDisable(false);
             reservationTab.setDisable(false);
@@ -79,6 +80,8 @@ public class MenagerMainPageController implements Initializable {
         initDbButton.setOnAction(event -> {
 
             databaseService.createDatabase();
+
+            initDbButton.setDisable(true);
 
             databaseService.createSkiTable();
             databaseService.createCustomerTable();
@@ -109,6 +112,7 @@ public class MenagerMainPageController implements Initializable {
     private void dropDb() {
         dropBbButton.setOnAction(event -> {
             databaseService.dropDatabase();
+            initDbButton.setDisable(false);
             init();
         });
     }
