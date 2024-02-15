@@ -2,10 +2,9 @@ package org.application.bwp.rentalskiequcrud.jsonFile.writerToFile;
 
 import javafx.scene.control.Alert;
 import org.application.bwp.rentalskiequcrud.database.DatabaseErrorsTypes;
-import org.application.bwp.rentalskiequcrud.database.DatabaseServiceImp;
 import org.application.bwp.rentalskiequcrud.entity.Customer;
 import org.application.bwp.rentalskiequcrud.entity.Reservation;
-import org.application.bwp.rentalskiequcrud.entity.Ski;
+import org.application.bwp.rentalskiequcrud.entity.SkiEqu;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -55,8 +54,8 @@ public class JsonWriteToFile {
         StringBuilder data = new StringBuilder("[\n");
         for (int i = 0; i < list.size(); i++) {
             Object e = list.get(i);
-            if (e instanceof Ski) {
-                data.append(((Ski) e).jsonBuilder());
+            if (e instanceof SkiEqu) {
+                data.append(((SkiEqu) e).jsonBuilder());
             } else if (e instanceof Customer) {
                 data.append(((Customer) e).jsonBuilder());
             } else if (e instanceof Reservation) {
@@ -70,7 +69,7 @@ public class JsonWriteToFile {
         data.append("\n]");
 
         String fileName;
-        if(list.get(0) instanceof Ski)
+        if(list.get(0) instanceof SkiEqu)
             fileName = FILE_PATH_SKI;
         else if(list.get(0) instanceof Customer)
             fileName = FILE_PATH_CUSTOMER;

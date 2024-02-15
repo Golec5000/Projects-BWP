@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import javafx.scene.control.Alert;
 import org.application.bwp.rentalskiequcrud.entity.Customer;
 import org.application.bwp.rentalskiequcrud.entity.Reservation;
-import org.application.bwp.rentalskiequcrud.entity.Ski;
+import org.application.bwp.rentalskiequcrud.entity.SkiEqu;
 import org.application.bwp.rentalskiequcrud.jsonFile.adapters.LocalDateAdapter;
 
 import java.io.FileReader;
@@ -28,10 +28,10 @@ public class JsonReadFromFile {
         return instance;
     }
 
-    public List<Ski> readSki() {
+    public List<SkiEqu> readSki() {
 
         try (Reader reader = new FileReader(FILE_PATH_SKI)) {
-            return new Gson().fromJson(reader, new TypeToken<List<Ski>>() {
+            return new Gson().fromJson(reader, new TypeToken<List<SkiEqu>>() {
             }.getType());
         } catch (Exception e) {
            errorHandler(e);

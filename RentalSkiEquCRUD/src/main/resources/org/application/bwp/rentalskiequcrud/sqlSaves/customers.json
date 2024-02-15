@@ -1,7 +1,7 @@
 [
-{ "id": 1, "nazwa": "Klient1", "password": "password1"},
-{ "id": 2, "nazwa": "Klient2", "password": "password2"},
-{ "id": 3, "nazwa": "Klient3", "password": "password3"},
-{ "id": 4, "nazwa": "Klient4", "password": "password4"},
-{ "id": 5, "nazwa": "Klient5", "password": "password5"}
+{ "id": 1, "nazwa": "Maciek Siwy", "password": "1234"},
+{ "id": 2, "nazwa": "Łysy", "password": "debil123"},
+{ "id": 3, "nazwa": "Ryszard", "password": "TakTakTak"},
+{ "id": 4, "nazwa": "Jakub Dzban", "password": "Dzbany123"},
+{ "id": 5, "nazwa": "Michał", "password": "Piwo123"}
 ]

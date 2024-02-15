@@ -2,7 +2,7 @@ package org.application.bwp.rentalskiequcrud.database;
 
 import org.application.bwp.rentalskiequcrud.entity.Customer;
 import org.application.bwp.rentalskiequcrud.entity.Reservation;
-import org.application.bwp.rentalskiequcrud.entity.Ski;
+import org.application.bwp.rentalskiequcrud.entity.SkiEqu;
 import org.application.bwp.rentalskiequcrud.entity.enums.Payment;
 import org.application.bwp.rentalskiequcrud.entity.enums.Status;
 import org.application.bwp.rentalskiequcrud.jsonFile.readerFromFile.JsonReadFromFile;
@@ -40,7 +40,7 @@ public class DatabaseServiceImp implements DatabaseService {
     @Override
     public boolean createDatabase() {
 
-        try (Connection connection = DatabaseConnector.getInstance().getConnection()) {
+        try (Connection connection = dataBaseConnector.getConnection()) {
             String sql = "CREATE DATABASE IF NOT EXISTS skiandsnowboardrental";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -60,10 +60,10 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean createCustomerTable() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "CREATE TABLE IF NOT EXISTS klienci  (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
-                    "nazwa VARCHAR(255) NOT NULL," +
+                    "nazwa VARCHAR(255) NOT NULL UNIQUE," +
                     "password VARCHAR(255) NOT NULL" +
                     ")";
 
@@ -83,7 +83,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean createSkiTable() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "CREATE TABLE IF NOT EXISTS narty  (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "rodzaj VARCHAR(255) NOT NULL," +
@@ -107,7 +107,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean createReservationTable() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "CREATE TABLE IF NOT EXISTS rezerwacja  (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "id_klient INT NOT NULL," +
@@ -136,18 +136,18 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean insertSkiData() {
-        List<Ski> skiList = jsonReadFromFile.readSki();
+        List<SkiEqu> skiEquList = jsonReadFromFile.readSki();
 
-        if(jsonReadFromFile.isListEmpty(skiList)) return false;
+        if(jsonReadFromFile.isListEmpty(skiEquList)) return false;
 
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO narty (rodzaj, rozmiar, status) VALUES (?, ?, ?)"; // updated SQL
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                for (Ski ski : skiList) {
-                    preparedStatement.setString(1, ski.getRodzaj());
-                    preparedStatement.setInt(2, ski.getDlugosc());
-                    preparedStatement.setString(3, ski.getStatus().toString()); // insert status
+                for (SkiEqu skiEqu : skiEquList) {
+                    preparedStatement.setString(1, skiEqu.getRodzaj());
+                    preparedStatement.setInt(2, skiEqu.getDlugosc());
+                    preparedStatement.setString(3, skiEqu.getStatus().toString()); // insert status
                     preparedStatement.execute();
                 }
                 return true;
@@ -168,7 +168,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
         if(jsonReadFromFile.isListEmpty(customerList)) return false;
 
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO klienci (nazwa, password) VALUES (?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -195,7 +195,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
         if(jsonReadFromFile.isListEmpty(reservationList)) return false;
 
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO rezerwacja (id_klient, id_narty, data_poczatkowa, data_koncowa, status, platnosc) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -221,11 +221,11 @@ public class DatabaseServiceImp implements DatabaseService {
     }
 
     @Override
-    public List<Ski> selectAllSki() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+    public List<SkiEqu> selectAllSki() {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "SELECT * FROM narty";
 
-            List<Ski> skiList = new ArrayList<>();
+            List<SkiEqu> skiEquList = new ArrayList<>();
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.execute();
@@ -233,16 +233,16 @@ public class DatabaseServiceImp implements DatabaseService {
                 ResultSet resultSet = preparedStatement.getResultSet();
 
                 while (resultSet.next()) {
-                    Ski ski = new Ski()
+                    SkiEqu skiEqu = new SkiEqu()
                             .setId(resultSet.getInt("id"))
                             .setRodzaj(resultSet.getString("rodzaj"))
                             .setDlugosc(resultSet.getInt("rozmiar"))
                             .setStatus(Status.valueOf(resultSet.getString("status")))
                             .build();
-                    skiList.add(ski);
+                    skiEquList.add(skiEqu);
                 }
 
-                return skiList;
+                return skiEquList;
             } catch (SQLException e) {
                 dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.SELECT_ERROR);
                 return Collections.emptyList();
@@ -256,7 +256,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public List<Reservation> selectAllReservation() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnectionToSnowRental()) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "SELECT * FROM rezerwacja";
 
             List<Reservation> reservationList = new ArrayList<>();
@@ -354,7 +354,7 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean dropDatabase() {
-        try (Connection connection = DatabaseConnector.getInstance().getConnection()) {
+        try (Connection connection = dataBaseConnector.getConnection()) {
             String sql = "DROP DATABASE IF EXISTS skiandsnowboardrental";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -362,6 +362,58 @@ public class DatabaseServiceImp implements DatabaseService {
                 return true;
             } catch (SQLException e) {
                 dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DROP_DATABASE_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteCustomer(int id) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sqlMainCustomerTable = "DELETE FROM klienci WHERE id = ?";
+            String sqlMainReservationTable = "DELETE FROM rezerwacja WHERE id_klient = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlMainReservationTable)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DELETE_ERROR);
+                return false;
+            }
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlMainCustomerTable)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DELETE_ERROR);
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateCustomer(Customer customer) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "UPDATE klienci SET nazwa = ?, password = ? WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, customer.getNazwa());
+                preparedStatement.setString(2, customer.getPassword());
+                preparedStatement.setInt(3, customer.getId());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.UPDATE_ERROR);
                 return false;
             }
 

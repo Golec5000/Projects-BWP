@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1078.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="org.application.bwp.rentalskiequcrud.gui.MenagerMainPageController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1078.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.application.bwp.rentalskiequcrud.gui.MenagerMainPageController">
   <tabs>
       <Tab text="Zarządznie bazą danych">
         <content>
@@ -16,19 +27,225 @@
                   <Button fx:id="saveDbButton" layoutX="59.0" layoutY="257.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Zapisz aktualny stan bazy danych" />
                   <Button fx:id="dropBbButton" layoutX="59.0" layoutY="357.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Wyłącz bazę" />
                   <Button fx:id="loadSaveDbButton" layoutX="59.0" layoutY="162.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="197.0" text="Wczytaj zapisaną bazę" />
-                  <ImageView fx:id="logoImageView" fitHeight="630.0" fitWidth="663.0" layoutX="383.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="logoImageView" fitHeight="630.0" fitWidth="763.0" layoutX="283.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
         </content>
       </Tab>
     <Tab fx:id="customersTab" text="Klienci">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="customersTable" layoutX="1.0" layoutY="1.0" prefHeight="668.0" prefWidth="397.0">
+                    <columns>
+                      <TableColumn fx:id="customerIdTable" prefWidth="75.0" text="ID klienta" />
+                      <TableColumn fx:id="customerNameTable" prefWidth="75.0" text="Nazwa klienta" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <GridPane gridLinesVisible="true" layoutX="471.0" layoutY="37.0" prefHeight="557.0" prefWidth="538.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="227.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="241.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="214.0" minHeight="10.0" prefHeight="214.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="102.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <VBox prefHeight="263.0" prefWidth="213.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="379.0" text="Aktualizuj wybranego klienta">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="258.0" text="Nazwa klienta" />
+                              <TextField fx:id="loginCustomerTextField" alignment="CENTER" prefHeight="43.0" prefWidth="244.0" promptText="Nazwa klienta">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label alignment="CENTER" prefHeight="27.0" prefWidth="267.0" text="Hasło" />
+                              <PasswordField fx:id="passwordCustomerTextField" alignment="CENTER" prefHeight="43.0" prefWidth="212.0" promptText="Hasło">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </PasswordField>
+                              <Button fx:id="updateCustomerDataButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="374.0" text="Aktualizuj dane klienta" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="214.0" prefWidth="255.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="194.0" text="Usuń wybranego klienta">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="removeCustomerButton" mnemonicParsing="false" prefHeight="43.0" prefWidth="195.0" text="Usuń klienta" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="84.0" prefWidth="190.0" GridPane.rowIndex="1">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="194.0" text="Odświerz listę klientów">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="refreshCustomersListButton" mnemonicParsing="false" prefHeight="43.0" prefWidth="195.0" text="Odświerz listę klientów" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="214.0" prefWidth="193.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="10.0" prefHeight="17.0" prefWidth="194.0" text="Wyszukiwanie klienta" textAlignment="RIGHT">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="customerSearchBar" alignment="CENTER" prefHeight="37.0" prefWidth="212.0" promptText="Search" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="379.0" text="Dodaj klienta">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="258.0" text="Nazwa klienta" />
+                              <TextField fx:id="loginAddCustomerTextFiled" alignment="CENTER" prefHeight="43.0" prefWidth="244.0" promptText="Nazwa klienta">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label alignment="CENTER" prefHeight="27.0" prefWidth="267.0" text="Hasło" />
+                              <PasswordField fx:id="passwordAddCustomerTextField" alignment="CENTER" prefHeight="43.0" prefWidth="212.0" promptText="Hasło">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </PasswordField>
+                              <Button fx:id="addCustomerButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="374.0" text="Dodaj dane klienta" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+               </children></AnchorPane>
       </content>
     </Tab>
     <Tab fx:id="magazineTab" text="Stan mazazynu">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="magazineTable" prefHeight="667.0" prefWidth="575.0">
+                    <columns>
+                      <TableColumn fx:id="equIdTable" prefWidth="75.0" text="ID sprzętu" />
+                      <TableColumn fx:id="equRodzajTable" prefWidth="75.0" text="Rodzaj " />
+                        <TableColumn fx:id="equStatusTable" prefWidth="75.0" text="Stan magazynowy / dostępność" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <GridPane gridLinesVisible="true" layoutX="575.0" layoutY="1.0" prefHeight="668.0" prefWidth="503.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="426.0" text="Wyszukiwanie sprzętu">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="equSearchBar" alignment="CENTER" prefHeight="38.0" prefWidth="193.0" promptText="Search">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <ComboBox fx:id="statusComboBox" prefHeight="37.0" prefWidth="416.0" promptText="Select status" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="444.0" text="Aktualizuj wybrany sprzęt">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="454.0" text="Rodzaj sprzętu" />
+                              <TextField fx:id="equRodzajTextField" alignment="CENTER" prefHeight="38.0" prefWidth="193.0" promptText="Rodzaj sprzętu">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="254.0" text="Status dostępności" />
+                              <ComboBox fx:id="statusUpdateComboBox" prefHeight="34.0" prefWidth="249.0" promptText="Select status">
+                                 <VBox.margin>
+                                    <Insets bottom="35.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Button fx:id="equUpdateButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="258.0" text="Aktualizuj wybrany sprzęt" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Odświerzanie listy elemetów" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="equRefreshListButton" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="268.0" text="Odświerz listę sprzętu" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="362.0" text="Usuń wybrany sprzęt">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="equRemoveItemButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="383.0" text="Usuń przedmiot">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="444.0" text="Aktualizuj wybrany sprzęt">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="454.0" text="Rodzaj sprzętu" />
+                              <TextField fx:id="equAddRodzajTextField" alignment="CENTER" prefHeight="38.0" prefWidth="193.0" promptText="Rodzaj sprzętu">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="254.0" text="Status dostępności" />
+                              <ComboBox fx:id="statusAddEquComboBox" prefHeight="34.0" prefWidth="249.0" promptText="Select status">
+                                 <VBox.margin>
+                                    <Insets bottom="35.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Button fx:id="equAddButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="258.0" text="Aktualizuj wybrany sprzęt" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+               </children></AnchorPane>
       </content>
     </Tab>
       <Tab fx:id="reservationTab" text="Rezerwacje">

@@ -2,7 +2,7 @@ package org.application.bwp.rentalskiequcrud.database;
 
 import org.application.bwp.rentalskiequcrud.entity.Customer;
 import org.application.bwp.rentalskiequcrud.entity.Reservation;
-import org.application.bwp.rentalskiequcrud.entity.Ski;
+import org.application.bwp.rentalskiequcrud.entity.SkiEqu;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface DatabaseService {
     boolean insertReservationData();
 
     //select data from tables
-    List<Ski> selectAllSki();
+    List<SkiEqu> selectAllSki();
 
     List<Reservation> selectAllReservation();
 
@@ -37,4 +37,10 @@ public interface DatabaseService {
 
     //drop database
     boolean dropDatabase();
+
+    //delete data from tables
+    boolean deleteCustomer(int id);
+
+    //update data in tables
+    boolean updateCustomer(Customer customer);
 }
