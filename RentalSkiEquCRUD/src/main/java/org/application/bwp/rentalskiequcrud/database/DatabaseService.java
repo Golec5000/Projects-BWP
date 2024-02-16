@@ -21,6 +21,9 @@ public interface DatabaseService {
     boolean insertCustomerData();
     boolean insertReservationData();
 
+    boolean insertCustomer(Customer customer);
+    boolean insertSki(SkiEqu skiEqu);
+
     //select data from tables
     List<SkiEqu> selectAllSki();
 
@@ -40,7 +43,11 @@ public interface DatabaseService {
 
     //delete data from tables
     boolean deleteCustomer(int id);
+    boolean deleteSki(int id);
+    boolean deleteReservation(int id);
 
     //update data in tables
     boolean updateCustomer(Customer customer);
+    boolean updateSki(SkiEqu updatedSkiEqu);
+    boolean updateReservation(Reservation updatedReservation);
 }

@@ -24,4 +24,6 @@ module org.application.bwp.rentalskiequcrud {
     opens org.application.bwp.rentalskiequcrud.jsonFile.writerToFile;
     opens org.application.bwp.rentalskiequcrud.entity.enums;
     opens org.application.bwp.rentalskiequcrud.entity.buildres;
+    exports org.application.bwp.rentalskiequcrud.gui.menager;
+    opens org.application.bwp.rentalskiequcrud.gui.menager;
 }

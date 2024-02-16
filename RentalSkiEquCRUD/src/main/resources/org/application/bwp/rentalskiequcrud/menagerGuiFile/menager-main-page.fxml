@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1078.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.application.bwp.rentalskiequcrud.gui.MenagerMainPageController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1078.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.application.bwp.rentalskiequcrud.gui.menager.MenagerMainPageController">
   <tabs>
       <Tab text="Zarządznie bazą danych">
         <content>
@@ -143,7 +144,8 @@
                     <columns>
                       <TableColumn fx:id="equIdTable" prefWidth="75.0" text="ID sprzętu" />
                       <TableColumn fx:id="equRodzajTable" prefWidth="75.0" text="Rodzaj " />
-                        <TableColumn fx:id="equStatusTable" prefWidth="75.0" text="Stan magazynowy / dostępność" />
+                        <TableColumn fx:id="equStatusTable" prefWidth="75.0" text="Stan magazynowy" />
+                        <TableColumn fx:id="skiEquDimTable" prefWidth="75.0" text="Długość" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -155,12 +157,12 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="268.0" minHeight="10.0" prefHeight="268.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="218.0" minHeight="10.0" prefHeight="133.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="269.0" minHeight="10.0" prefHeight="267.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="426.0" text="Wyszukiwanie sprzętu">
                                  <VBox.margin>
@@ -191,13 +193,19 @@
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="254.0" text="Status dostępności" />
                               <ComboBox fx:id="statusUpdateComboBox" prefHeight="34.0" prefWidth="249.0" promptText="Select status">
                                  <VBox.margin>
-                                    <Insets bottom="35.0" />
+                                    <Insets bottom="15.0" />
                                  </VBox.margin>
                               </ComboBox>
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="112.0" prefHeight="17.0" prefWidth="254.0" text="Długość" />
+                              <TextField fx:id="equDimUpdateTextFiled" alignment="CENTER" layoutX="10.0" layoutY="54.0" prefHeight="38.0" prefWidth="193.0" promptText="Długość sprzętu">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TextField>
                               <Button fx:id="equUpdateButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="258.0" text="Aktualizuj wybrany sprzęt" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                            <children>
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="380.0" text="Odświerzanie listy elemetów" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
@@ -207,7 +215,7 @@
                               <Button fx:id="equRefreshListButton" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="268.0" text="Odświerz listę sprzętu" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="362.0" text="Usuń wybrany sprzęt">
                                  <VBox.margin>
@@ -223,7 +231,7 @@
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="444.0" text="Aktualizuj wybrany sprzęt">
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="444.0" text="Nowy sprzęt">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -237,10 +245,16 @@
                               <Label alignment="CENTER" prefHeight="17.0" prefWidth="254.0" text="Status dostępności" />
                               <ComboBox fx:id="statusAddEquComboBox" prefHeight="34.0" prefWidth="249.0" promptText="Select status">
                                  <VBox.margin>
-                                    <Insets bottom="35.0" />
+                                    <Insets bottom="15.0" />
                                  </VBox.margin>
                               </ComboBox>
-                              <Button fx:id="equAddButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="258.0" text="Aktualizuj wybrany sprzęt" />
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="254.0" text="Długość" />
+                              <TextField fx:id="equDimAddTextFiled" alignment="CENTER" prefHeight="38.0" prefWidth="193.0" promptText="Długość sprzętu">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button fx:id="equAddButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="258.0" text="Dodaj nowy sprzęt" />
                            </children>
                         </VBox>
                      </children>
@@ -250,7 +264,74 @@
     </Tab>
       <Tab fx:id="reservationTab" text="Rezerwacje">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="reservationTable" prefHeight="668.0" prefWidth="565.0">
+                    <columns>
+                      <TableColumn fx:id="reservationIdTable" prefWidth="59.0" text="ID Zam." />
+                      <TableColumn fx:id="resevationEquIdTable" prefWidth="66.0" text="ID Sprzętu" />
+                        <TableColumn fx:id="reservationCustomerIdTable" prefWidth="76.0" text="ID Klienta" />
+                        <TableColumn fx:id="reservationDateStartTable" prefWidth="97.0" text="Data Rozp." />
+                        <TableColumn fx:id="reservationDateEndTable" prefWidth="95.0" text="Data Zakoń." />
+                        <TableColumn fx:id="resevationStatusTable" prefWidth="81.0" text="Staus" />
+                        <TableColumn fx:id="reservationPaymetStatusTable" prefWidth="86.0" text="Płatność" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <GridPane layoutX="565.0" prefHeight="669.0" prefWidth="512.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="223.0" prefWidth="241.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="279.0" text="Wyszukiwanie po:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="reservationSearchBar" prefHeight="16.0" prefWidth="249.0" promptText="search" />
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="476.0" text="Staus rezerwacji" />
+                              <ComboBox fx:id="reservationStatusSearchComboBox" prefHeight="25.0" prefWidth="351.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="123.0" prefHeight="17.0" prefWidth="474.0" text="Status płatności" />
+                              <ComboBox fx:id="reservationPaymentSearchComboBox" layoutX="10.0" layoutY="119.0" prefHeight="25.0" prefWidth="359.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="131.0" prefHeight="17.0" prefWidth="399.0" text="Data rozpoczęcia" />
+                              <DatePicker fx:id="reservationDateStartSearch" prefHeight="25.0" prefWidth="321.0" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="152.0" prefHeight="17.0" prefWidth="343.0" text="Data zakończenia" />
+                              <DatePicker fx:id="reservationDateEndSearch" layoutX="10.0" layoutY="161.0" prefHeight="25.0" prefWidth="377.0" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="reservationRemoveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="378.0" text="Usuń rezerwację z listy" GridPane.rowIndex="2" />
+                        <Button fx:id="refreshReservationListButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="251.0" text="Odświerz listę rezerwacji" GridPane.rowIndex="1" />
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="223.0" prefWidth="241.0" GridPane.columnIndex="1">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="279.0" text="Aktualizuj rezerwację">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="476.0" text="Staus rezerwacji" />
+                              <ComboBox fx:id="reservationStatusUpdateComboBox" prefHeight="25.0" prefWidth="351.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="123.0" prefHeight="17.0" prefWidth="474.0" text="Status płatności" />
+                              <ComboBox fx:id="reservationPaymentUpdateComboBox" layoutX="10.0" layoutY="119.0" prefHeight="25.0" prefWidth="359.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="131.0" prefHeight="17.0" prefWidth="399.0" text="Data rozpoczęcia" />
+                              <DatePicker fx:id="reservationDateStartUpdate" prefHeight="25.0" prefWidth="321.0" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="152.0" prefHeight="17.0" prefWidth="343.0" text="Data zakończenia" />
+                              <DatePicker fx:id="reservationDateEndUpdate" layoutX="10.0" layoutY="161.0" prefHeight="25.0" prefWidth="377.0" />
+                              <Button fx:id="reservationUpdateButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="251.0" text="Aktualizuj" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+               </children></AnchorPane>
         </content>
       </Tab>
   </tabs>

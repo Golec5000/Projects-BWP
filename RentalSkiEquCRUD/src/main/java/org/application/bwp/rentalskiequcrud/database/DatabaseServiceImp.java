@@ -221,6 +221,49 @@ public class DatabaseServiceImp implements DatabaseService {
     }
 
     @Override
+    public boolean insertCustomer(Customer customer) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "INSERT INTO klienci (nazwa, password) VALUES (?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, customer.getNazwa());
+                preparedStatement.setString(2, customer.getPassword());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.INSERT_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean insertSki(SkiEqu skiEqu) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "INSERT INTO narty (rodzaj, rozmiar, status) VALUES (?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, skiEqu.getRodzaj());
+                preparedStatement.setInt(2, skiEqu.getDlugosc());
+                preparedStatement.setString(3, skiEqu.getStatus().toString());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.INSERT_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
     public List<SkiEqu> selectAllSki() {
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "SELECT * FROM narty";
@@ -402,6 +445,56 @@ public class DatabaseServiceImp implements DatabaseService {
     }
 
     @Override
+    public boolean deleteSki(int id) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sqlMainSkiTable = "DELETE FROM narty WHERE id = ?";
+            String sqlMainReservationTable = "DELETE FROM rezerwacja WHERE id_narty = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlMainReservationTable)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DELETE_ERROR);
+                return false;
+            }
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlMainSkiTable)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DELETE_ERROR);
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteReservation(int id) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "DELETE FROM rezerwacja WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.DELETE_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
     public boolean updateCustomer(Customer customer) {
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "UPDATE klienci SET nazwa = ?, password = ? WHERE id = ?";
@@ -410,6 +503,55 @@ public class DatabaseServiceImp implements DatabaseService {
                 preparedStatement.setString(1, customer.getNazwa());
                 preparedStatement.setString(2, customer.getPassword());
                 preparedStatement.setInt(3, customer.getId());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.UPDATE_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateSki(SkiEqu updatedSkiEqu) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "UPDATE narty SET rodzaj = ?, rozmiar = ?, status = ? WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, updatedSkiEqu.getRodzaj());
+                preparedStatement.setInt(2, updatedSkiEqu.getDlugosc());
+                preparedStatement.setString(3, updatedSkiEqu.getStatus().toString());
+                preparedStatement.setInt(4, updatedSkiEqu.getId());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.UPDATE_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateReservation(Reservation updatedReservation) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "UPDATE rezerwacja SET id_klient = ?, id_narty = ?, data_poczatkowa = ?, data_koncowa = ?, status = ?, platnosc = ? WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, updatedReservation.getId_klient());
+                preparedStatement.setInt(2, updatedReservation.getId_narty());
+                preparedStatement.setDate(3, Date.valueOf(updatedReservation.getData_poczatkowa()));
+                preparedStatement.setDate(4, Date.valueOf(updatedReservation.getData_koncowa()));
+                preparedStatement.setString(5, updatedReservation.getStatus().toString());
+                preparedStatement.setString(6, updatedReservation.getPlatnosc().toString());
+                preparedStatement.setInt(7, updatedReservation.getId());
                 preparedStatement.execute();
                 return true;
             } catch (SQLException e) {
