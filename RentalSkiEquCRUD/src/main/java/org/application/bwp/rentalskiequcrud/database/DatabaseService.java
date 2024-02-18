@@ -24,6 +24,8 @@ public interface DatabaseService {
     boolean insertCustomer(Customer customer);
     boolean insertSki(SkiEqu skiEqu);
 
+    boolean insertReservation(Reservation reservation);
+
     //select data from tables
     List<SkiEqu> selectAllSki();
 
@@ -50,4 +52,7 @@ public interface DatabaseService {
     boolean updateCustomer(Customer customer);
     boolean updateSki(SkiEqu updatedSkiEqu);
     boolean updateReservation(Reservation updatedReservation);
+
+    void updateSkiEquStatusBasedOnReservation();
+
 }

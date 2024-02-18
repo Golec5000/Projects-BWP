@@ -286,9 +286,9 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="237.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="231.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="293.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <VBox alignment="CENTER" prefHeight="223.0" prefWidth="241.0">
@@ -327,6 +327,28 @@
                               <Label alignment="CENTER" layoutX="10.0" layoutY="152.0" prefHeight="17.0" prefWidth="343.0" text="Data zakończenia" />
                               <DatePicker fx:id="reservationDateEndUpdate" layoutX="10.0" layoutY="161.0" prefHeight="25.0" prefWidth="377.0" />
                               <Button fx:id="reservationUpdateButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="251.0" text="Aktualizuj" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="266.0" layoutY="10.0" prefHeight="223.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="279.0" text="Dodaj rezewację">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="279.0" text="ID klienta" />
+                              <TextField fx:id="reservarionAddCustomerIDTextField" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="43.0" prefHeight="17.0" prefWidth="279.0" text="ID sprzetu" />
+                              <TextField fx:id="reservationAddSkiEquIDTextField" />
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="476.0" text="Staus rezerwacji" />
+                              <ComboBox fx:id="reservationStatusAddComboBox" prefHeight="25.0" prefWidth="351.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="123.0" prefHeight="17.0" prefWidth="474.0" text="Status płatności" />
+                              <ComboBox fx:id="reservationPaymentAddComboBox" layoutX="10.0" layoutY="119.0" prefHeight="25.0" prefWidth="359.0" promptText="Select status" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="131.0" prefHeight="17.0" prefWidth="399.0" text="Data rozpoczęcia" />
+                              <DatePicker fx:id="reservationDateStartAdd" prefHeight="25.0" prefWidth="321.0" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="152.0" prefHeight="17.0" prefWidth="343.0" text="Data zakończenia" />
+                              <DatePicker fx:id="reservationDateEndAdd" layoutX="10.0" layoutY="161.0" prefHeight="25.0" prefWidth="377.0" />
+                              <Button fx:id="reservationAddButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="251.0" text="Dodaj" />
                            </children>
                         </VBox>
                      </children>

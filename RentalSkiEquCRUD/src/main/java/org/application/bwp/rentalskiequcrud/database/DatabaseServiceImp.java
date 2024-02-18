@@ -264,6 +264,31 @@ public class DatabaseServiceImp implements DatabaseService {
     }
 
     @Override
+    public boolean insertReservation(Reservation reservation) {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String sql = "INSERT INTO rezerwacja (id_klient, id_narty, data_poczatkowa, data_koncowa, status, platnosc) VALUES (?, ?, ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, reservation.getId_klient());
+                preparedStatement.setInt(2, reservation.getId_narty());
+                preparedStatement.setDate(3, Date.valueOf(reservation.getData_poczatkowa()));
+                preparedStatement.setDate(4, Date.valueOf(reservation.getData_koncowa()));
+                preparedStatement.setString(5, reservation.getStatus().toString());
+                preparedStatement.setString(6, reservation.getPlatnosc().toString());
+                preparedStatement.execute();
+                return true;
+            } catch (SQLException e) {
+                dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.INSERT_ERROR);
+                return false;
+            }
+
+        } catch (SQLException e) {
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
+            return false;
+        }
+    }
+
+    @Override
     public List<SkiEqu> selectAllSki() {
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "SELECT * FROM narty";
@@ -562,6 +587,25 @@ public class DatabaseServiceImp implements DatabaseService {
         } catch (SQLException e) {
             dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.CONNECTION_ERROR);
             return false;
+        }
+    }
+
+    @Override
+    public void updateSkiEquStatusBasedOnReservation() {
+        try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
+            String selectQuery = "SELECT id_narty FROM rezerwacja WHERE status IN ('ZALOZONA', 'ROZPOCZETA')";
+            PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int skiequId = resultSet.getInt("id_narty");
+                String updateQuery = "UPDATE narty SET status = 'NIEDOSTEPNE' WHERE id = ?";
+                PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+                updateStatement.setInt(1, skiequId);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

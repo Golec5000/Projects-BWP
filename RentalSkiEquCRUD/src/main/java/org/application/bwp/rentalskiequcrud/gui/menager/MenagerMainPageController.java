@@ -57,6 +57,8 @@ public class MenagerMainPageController implements Initializable {
     private Button reservationRemoveButton;
     @FXML
     private Button reservationUpdateButton;
+    @FXML
+    private Button reservationAddButton;
 
     // TableColumns
     //Customer
@@ -110,6 +112,10 @@ public class MenagerMainPageController implements Initializable {
     private TextField equDimAddTextFiled;
     @FXML
     private TextField reservationSearchBar;
+    @FXML
+    private TextField reservarionAddCustomerIDTextField;
+    @FXML
+    private TextField reservationAddSkiEquIDTextField;
 
     // PasswordFields
     @FXML
@@ -132,6 +138,10 @@ public class MenagerMainPageController implements Initializable {
     private ComboBox<String> reservationStatusUpdateComboBox;
     @FXML
     private ComboBox<String> reservationPaymentUpdateComboBox;
+    @FXML
+    private ComboBox<String> reservationStatusAddComboBox;
+    @FXML
+    private ComboBox<String> reservationPaymentAddComboBox;
 
     // Tabs
     @FXML
@@ -162,6 +172,10 @@ public class MenagerMainPageController implements Initializable {
     private DatePicker reservationDateStartUpdate;
     @FXML
     private DatePicker reservationDateEndUpdate;
+    @FXML
+    private DatePicker reservationDateStartAdd;
+    @FXML
+    private DatePicker reservationDateEndAdd;
 
 
     private final DatabaseService databaseService = DatabaseServiceImp.getInstance();
@@ -205,10 +219,14 @@ public class MenagerMainPageController implements Initializable {
         preparePaymentComboBox(reservationPaymentUpdateComboBox);
         prepareReservationStatusComboBox(reservationStatusUpdateComboBox);
 
+        preparePaymentComboBox(reservationPaymentAddComboBox);
+        prepareReservationStatusComboBox(reservationStatusAddComboBox);
+
 
         loadDataToTableReservation();
         reservationRemove();
         updateReservation();
+        addReservation();
 
     }
 
@@ -288,7 +306,15 @@ public class MenagerMainPageController implements Initializable {
     }
 
     private void loadLogo() {
-        logoImageView.setImage(new Image(Objects.requireNonNull(getClass().getResource("/org/application/bwp/rentalskiequcrud/images/skiImage.jpg")).toString()));
+        try{
+            logoImageView.setImage(new Image(Objects.requireNonNull(getClass().getResource("/org/application/bwp/rentalskiequcrud/images/skiImage.jpg")).toString()));
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Błąd");
+            alert.setHeaderText("Błąd ładowania pliku");
+            alert.setContentText("Sprawdź pliki aplikacji " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     //customers tab
@@ -411,6 +437,8 @@ public class MenagerMainPageController implements Initializable {
 
     private void prepareSkiData() {
 
+        databaseService.updateSkiEquStatusBasedOnReservation();
+
         if (!skiEquObservableList.isEmpty()) skiEquObservableList.clear();
 
         List<SkiEqu> skiEqus = databaseService.selectAllSki();
@@ -465,13 +493,7 @@ public class MenagerMainPageController implements Initializable {
 
     private boolean isMatchesStatusSki(SkiEqu skiEqu, String statusFilter) {
 
-        boolean matchesSearch = true;
-
-        if (statusFilter != null && !statusFilter.isBlank() && !statusFilter.equals("Select status")) {
-            matchesSearch = skiEqu.getStatus().toString().equals(statusFilter);
-        }
-
-        return matchesSearch;
+        return statusFilter == null || statusFilter.isBlank() || statusFilter.equals("Select status") || skiEqu.getStatus().toString().equals(statusFilter);
 
     }
 
@@ -591,6 +613,8 @@ public class MenagerMainPageController implements Initializable {
     }
 
     private void prepareReservationData() {
+
+        databaseService.updateSkiEquStatusBasedOnReservation();
 
         if (!reservationObservableList.isEmpty()) reservationObservableList.clear();
 
@@ -733,6 +757,82 @@ public class MenagerMainPageController implements Initializable {
                     reservationStatusUpdateComboBox.setValue("Select status");
                     reservationPaymentUpdateComboBox.setValue("Select status");
                 }
+            }
+        });
+    }
+
+    private void addReservation() {
+        reservationAddButton.setOnAction(event -> {
+            LocalDate dateStart = reservationDateStartAdd.getValue();
+            LocalDate dateEnd = reservationDateEndAdd.getValue();
+
+            if (dateStart == null || dateEnd == null
+                    ||dateStart.isAfter(dateEnd)
+                    || dateStart.isEqual(dateEnd)
+                    || dateEnd.isBefore(dateStart)
+                    || dateEnd.isEqual(dateStart)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Błędna data");
+                alert.setContentText("Data początkowa nie może być późniejsza niż data końcowa");
+                alert.showAndWait();
+                return;
+            }
+
+            int customerId;
+
+            try {
+                customerId = Integer.parseInt(reservarionAddCustomerIDTextField.getText());
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Błędna wartość");
+                alert.setContentText("Wprowadź poprawną wartość dla ID klienta");
+                alert.showAndWait();
+                return;
+            }
+
+            int equId;
+
+            try {
+                equId = Integer.parseInt(reservationAddSkiEquIDTextField.getText());
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Błędna wartość");
+                alert.setContentText("Wprowadź poprawną wartość dla ID sprzętu");
+                alert.showAndWait();
+                return;
+            }
+
+            if(reservationStatusAddComboBox == null || reservationStatusAddComboBox.getValue() == null || reservationStatusAddComboBox.getValue().equals("Select status")
+                    || reservationPaymentAddComboBox == null || reservationPaymentAddComboBox.getValue() == null || reservationPaymentAddComboBox.getValue().equals("Select status")) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Błędna wartość");
+                alert.setContentText("Wprowadź poprawną wartość");
+                alert.showAndWait();
+                return;
+            }
+
+            Status status = Status.valueOf(reservationStatusAddComboBox.getValue());
+            Payment payment = Payment.valueOf(reservationPaymentAddComboBox.getValue());
+
+            Reservation reservation = new Reservation()
+                    .setId_klient(customerId)
+                    .setId_narty(equId)
+                    .setData_poczatkowa(dateStart)
+                    .setData_koncowa(dateEnd)
+                    .setStatus(status)
+                    .setPlatnosc(payment)
+                    .build();
+
+            if (databaseService.insertReservation(reservation)) {
+                prepareReservationData();
+                reservationAddSkiEquIDTextField.clear();
+                reservarionAddCustomerIDTextField.clear();
+                reservationDateStartAdd.getEditor().clear();
+                reservationDateEndAdd.getEditor().clear();
             }
         });
     }
