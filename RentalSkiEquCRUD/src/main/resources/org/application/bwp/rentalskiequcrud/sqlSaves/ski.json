@@ -1,7 +1,22 @@
 [
-{ "id": 1, "rodzaj": "Narty Freeride", "dlugosc": 160, "status": "DOSTEPNE" },
-{ "id": 2, "rodzaj": "Narty Skitourowe", "dlugosc": 170, "status": "DOSTEPNE" },
-{ "id": 3, "rodzaj": "Narty Telemarkowe", "dlugosc": 150, "status": "NIEDOSTEPNE" },
-{ "id": 4, "rodzaj": "Narty Short skis", "dlugosc": 175, "status": "DOSTEPNE" },
-{ "id": 5, "rodzaj": "Narty Race", "dlugosc": 165, "status": "DOSTEPNE" }
+  { "id": 1, "rodzaj": "Narty Freeride", "dlugosc": 160, "status": "DOSTEPNE" },
+  { "id": 2, "rodzaj": "Narty Skitourowe", "dlugosc": 170, "status": "DOSTEPNE" },
+  { "id": 3, "rodzaj": "Narty Telemarkowe", "dlugosc": 150, "status": "NIEDOSTEPNE" },
+  { "id": 4, "rodzaj": "Narty Short skis", "dlugosc": 175, "status": "DOSTEPNE" },
+  { "id": 5, "rodzaj": "Narty Race", "dlugosc": 165, "status": "DOSTEPNE" },
+  { "id": 6, "rodzaj": "Narty All-Mountain", "dlugosc": 180, "status": "DOSTEPNE" },
+  { "id": 7, "rodzaj": "Narty Powder", "dlugosc": 155, "status": "DOSTEPNE" },
+  { "id": 8, "rodzaj": "Narty Freeride", "dlugosc": 165, "status": "NIEDOSTEPNE" },
+  { "id": 9, "rodzaj": "Narty Skitourowe", "dlugosc": 175, "status": "DOSTEPNE" },
+  { "id": 10, "rodzaj": "Narty Telemarkowe", "dlugosc": 160, "status": "DOSTEPNE" },
+  { "id": 11, "rodzaj": "Narty Short skis", "dlugosc": 170, "status": "NIEDOSTEPNE" },
+  { "id": 12, "rodzaj": "Narty Race", "dlugosc": 155, "status": "DOSTEPNE" },
+  { "id": 13, "rodzaj": "Narty All-Mountain", "dlugosc": 175, "status": "DOSTEPNE" },
+  { "id": 14, "rodzaj": "Narty Powder", "dlugosc": 160, "status": "DOSTEPNE" },
+  { "id": 15, "rodzaj": "Narty Freeride", "dlugosc": 170, "status": "DOSTEPNE" },
+  { "id": 16, "rodzaj": "Snowboard Freestyle", "dlugosc": 155, "status": "DOSTEPNE" },
+  { "id": 17, "rodzaj": "Snowboard Freeride", "dlugosc": 160, "status": "DOSTEPNE" },
+  { "id": 18, "rodzaj": "Snowboard All-Mountain", "dlugosc": 165, "status": "DOSTEPNE" },
+  { "id": 19, "rodzaj": "Snowboard Powder", "dlugosc": 158, "status": "DOSTEPNE" },
+  { "id": 20, "rodzaj": "Snowboard Freestyle", "dlugosc": 160, "status": "NIEDOSTEPNE" }
 ]

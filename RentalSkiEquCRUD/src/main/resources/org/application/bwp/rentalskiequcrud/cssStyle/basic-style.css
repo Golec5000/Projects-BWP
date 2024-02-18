@@ -1,0 +1,52 @@
+.root{
+    -fx-background-color: #111111;
+}
+
+.label{
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill: #fcfcfc;
+    -fx-alignment: center;
+}
+
+.button{
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill:  #fcfcfc;
+    -fx-alignment: center;
+    -fx-background-color: #3a6131;
+    -fx-border-color: #333333;
+}
+.table-view{
+    -fx-background-color: #3a6131;
+    -fx-text-fill:  #fcfcfc;
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+}
+
+.table-column{
+    -fx-background-color: #6123c4;
+    -fx-text-fill:  #fcfcfc;
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+}
+
+.text-field{
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill:  #fcfcfc;
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+}
+
+.combo-box{
+    -fx-font-size: 12;
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill:  #fcfcfc;
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+}

@@ -30,9 +30,9 @@ public class DatabaseServiceImp implements DatabaseService {
 
     @Override
     public boolean checkIfDatabaseExist() {
-        try(Connection ignored = dataBaseConnector.getConnectionToSnowRental()) {
+        try (Connection ignored = dataBaseConnector.getConnectionToSnowRental()) {
             return true;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             return false;
         }
     }
@@ -138,7 +138,7 @@ public class DatabaseServiceImp implements DatabaseService {
     public boolean insertSkiData() {
         List<SkiEqu> skiEquList = jsonReadFromFile.readSki();
 
-        if(jsonReadFromFile.isListEmpty(skiEquList)) return false;
+        if (jsonReadFromFile.isListEmpty(skiEquList)) return false;
 
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO narty (rodzaj, rozmiar, status) VALUES (?, ?, ?)"; // updated SQL
@@ -166,7 +166,7 @@ public class DatabaseServiceImp implements DatabaseService {
     public boolean insertCustomerData() {
         List<Customer> customerList = jsonReadFromFile.readCustomer();
 
-        if(jsonReadFromFile.isListEmpty(customerList)) return false;
+        if (jsonReadFromFile.isListEmpty(customerList)) return false;
 
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO klienci (nazwa, password) VALUES (?, ?)";
@@ -193,7 +193,7 @@ public class DatabaseServiceImp implements DatabaseService {
     public boolean insertReservationData() {
         List<Reservation> reservationList = jsonReadFromFile.readRental();
 
-        if(jsonReadFromFile.isListEmpty(reservationList)) return false;
+        if (jsonReadFromFile.isListEmpty(reservationList)) return false;
 
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
             String sql = "INSERT INTO rezerwacja (id_klient, id_narty, data_poczatkowa, data_koncowa, status, platnosc) VALUES (?, ?, ?, ?, ?, ?)";
@@ -397,7 +397,7 @@ public class DatabaseServiceImp implements DatabaseService {
         JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
         boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllSki());
 
-        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        if (!isCorrectSave) jsonWriteToFile.errorHandler();
         return isCorrectSave;
     }
 
@@ -407,7 +407,7 @@ public class DatabaseServiceImp implements DatabaseService {
         JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
         boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllCustomer());
 
-        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        if (!isCorrectSave) jsonWriteToFile.errorHandler();
         return isCorrectSave;
     }
 
@@ -416,7 +416,7 @@ public class DatabaseServiceImp implements DatabaseService {
         JsonWriteToFile jsonWriteToFile = JsonWriteToFile.getInstance();
         boolean isCorrectSave = jsonWriteToFile.prepareDataAndWriteToFile(selectAllReservation());
 
-        if(!isCorrectSave) jsonWriteToFile.errorHandler();
+        if (!isCorrectSave) jsonWriteToFile.errorHandler();
         return isCorrectSave;
     }
 
@@ -593,19 +593,29 @@ public class DatabaseServiceImp implements DatabaseService {
     @Override
     public void updateSkiEquStatusBasedOnReservation() {
         try (Connection connection = dataBaseConnector.getConnectionToSnowRental()) {
-            String selectQuery = "SELECT id_narty FROM rezerwacja WHERE status IN ('ZALOZONA', 'ROZPOCZETA')";
-            PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
-            ResultSet resultSet = selectStatement.executeQuery();
+            // Set all SkiEqu statuses to 'DOSTEPNE'
+            String updateAllQuery = "UPDATE narty SET status = 'DOSTEPNE'";
+            try (PreparedStatement updateAllStatement = connection.prepareStatement(updateAllQuery)) {
+                updateAllStatement.executeUpdate();
+            }
 
-            while (resultSet.next()) {
-                int skiequId = resultSet.getInt("id_narty");
-                String updateQuery = "UPDATE narty SET status = 'NIEDOSTEPNE' WHERE id = ?";
-                PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-                updateStatement.setInt(1, skiequId);
-                updateStatement.executeUpdate();
+            // Select all SkiEqu ids that have at least one reservation with status 'ZALOZONA' or 'ROZPOCZETA'
+            String selectQuery = "SELECT DISTINCT id_narty FROM rezerwacja WHERE status IN ('ZALOZONA', 'ROZPOCZETA')";
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                // Update the status of each selected SkiEqu to 'NIEDOSTEPNE'
+                while (resultSet.next()) {
+                    int skiequId = resultSet.getInt("id_narty");
+                    String updateQuery = "UPDATE narty SET status = 'NIEDOSTEPNE' WHERE id = ?";
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setInt(1, skiequId);
+                        updateStatement.executeUpdate();
+                    }
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            dataBaseConnector.handleDatabaseError(e, DatabaseErrorsTypes.UPDATE_ERROR);
         }
     }
 }

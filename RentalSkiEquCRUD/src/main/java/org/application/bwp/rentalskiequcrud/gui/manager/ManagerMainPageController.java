@@ -1,4 +1,4 @@
-package org.application.bwp.rentalskiequcrud.gui.menager;
+package org.application.bwp.rentalskiequcrud.gui.manager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MenagerMainPageController implements Initializable {
+public class ManagerMainPageController implements Initializable {
 
     // Buttons
     @FXML
@@ -725,8 +725,17 @@ public class MenagerMainPageController implements Initializable {
 
                 int customerId = reservation.getId_klient();
                 int equId = reservation.getId_narty();
-                LocalDate dateStart = reservationDateStartUpdate.getValue();
-                LocalDate dateEnd = reservationDateEndUpdate.getValue();
+                LocalDate dateStart = (reservationDateStartUpdate.getValue() == null) ? reservation.getData_poczatkowa() : reservationDateStartUpdate.getValue();
+                LocalDate dateEnd = (reservationDateEndUpdate.getValue() == null) ? reservation.getData_koncowa() : reservationDateEndUpdate.getValue();
+
+                if(dateStart.isBefore(LocalDate.now()) || dateEnd.isBefore(LocalDate.now())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błędna data");
+                    alert.setContentText("Data początkowa i końcowa nie może być wcześniejsza niż dzisiejsza data");
+                    alert.showAndWait();
+                    return;
+                }
 
                 if (dateStart.isAfter(dateEnd) || dateStart.isEqual(dateEnd) || dateEnd.isBefore(dateStart) || dateEnd.isEqual(dateStart)) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -775,6 +784,15 @@ public class MenagerMainPageController implements Initializable {
                 alert.setTitle("Błąd");
                 alert.setHeaderText("Błędna data");
                 alert.setContentText("Data początkowa nie może być późniejsza niż data końcowa");
+                alert.showAndWait();
+                return;
+            }
+
+            if(dateStart.isBefore(LocalDate.now()) || dateEnd.isBefore(LocalDate.now())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Błędna data");
+                alert.setContentText("Data początkowa i końcowa nie może być wcześniejsza niż dzisiejsza data");
                 alert.showAndWait();
                 return;
             }

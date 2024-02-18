@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class MenagerApp extends Application {
+public class ManagerApp extends Application {
 
     @Override
     public void start(Stage stage) {
@@ -19,7 +19,14 @@ public class MenagerApp extends Application {
 
         try {
 
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/rentalskiequcrud/menagerGuiFile/menager-main-page.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/application/bwp/rentalskiequcrud/guiPages/manager/manager-main-page.fxml")));
+            String css = Objects.requireNonNull(this.getClass().getResource("/org/application/bwp/rentalskiequcrud/cssStyle/basic-style.css")).toExternalForm();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(css);
+            stage.setTitle("CRUD ManagerApp");
+            stage.setScene(scene);
+            stage.show();
 
         } catch (IOException | NullPointerException e) {
 
@@ -29,13 +36,9 @@ public class MenagerApp extends Application {
             alert.setContentText("Sprawdź pliki aplikacji " + e.getMessage());
             alert.showAndWait();
             System.out.println(Arrays.toString(e.getStackTrace()));
-            return;
         }
 
-        Scene scene = new Scene(root);
-        stage.setTitle("CRUD MenagerApp");
-        stage.setScene(scene);
-        stage.show();
+
     }
 
     public static void main(String[] args) {

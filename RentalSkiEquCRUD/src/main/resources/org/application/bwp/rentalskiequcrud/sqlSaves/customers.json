@@ -1,7 +1,22 @@
 [
-{ "id": 1, "nazwa": "Maciek Siwy", "password": "1234"},
-{ "id": 2, "nazwa": "Łysy", "password": "debil123"},
-{ "id": 3, "nazwa": "Ryszard", "password": "TakTakTak"},
-{ "id": 4, "nazwa": "Jakub Dzban", "password": "Dzbany123"},
-{ "id": 5, "nazwa": "Michał", "password": "Piwo123"}
+  { "id": 1, "nazwa": "Maciek Siwy", "password": "1234"},
+  { "id": 2, "nazwa": "Łysy", "password": "debil123"},
+  { "id": 3, "nazwa": "Ryszard", "password": "TakTakTak"},
+  { "id": 4, "nazwa": "Jakub Dzban", "password": "Dzbany123"},
+  { "id": 5, "nazwa": "Michał", "password": "Piwo123"},
+  { "id": 6, "nazwa": "Anna Kowalska", "password": "Anna123"},
+  { "id": 7, "nazwa": "Piotr Nowak", "password": "Nowak456"},
+  { "id": 8, "nazwa": "Alicja Wiśniewska", "password": "Wiśnia789"},
+  { "id": 9, "nazwa": "Tomasz Kowalczyk", "password": "Tom123"},
+  { "id": 10, "nazwa": "Magdalena Szymańska", "password": "Magda456"},
+  { "id": 11, "nazwa": "Kamil Lewandowski", "password": "Kamil789"},
+  { "id": 12, "nazwa": "Karolina Zając", "password": "Karolinka123"},
+  { "id": 13, "nazwa": "Bartosz Piotrowski", "password": "Bartek456"},
+  { "id": 14, "nazwa": "Natalia Kaczmarek", "password": "Natalia789"},
+  { "id": 15, "nazwa": "Marcin Tomczyk", "password": "Marcin123"},
+  { "id": 16, "nazwa": "Ewa Król", "password": "Ewunia456"},
+  { "id": 17, "nazwa": "Krzysztof Wójcik", "password": "Krzychu789"},
+  { "id": 18, "nazwa": "Monika Adamczyk", "password": "Monisia123"},
+  { "id": 19, "nazwa": "Marek Jankowski", "password": "Marek456"},
+  { "id": 20, "nazwa": "Ola Kowal", "password": "Ola789"}
 ]
